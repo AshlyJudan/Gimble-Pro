@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymble | Master Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --sidebar: #050505;
+            --card: #0d0d0d;
+            --accent: #8b5cf6;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --text-dim: #71717a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+
+        /* --- SIDEBAR --- */
+        .sidebar { width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; gap: 8px; }
+        .brand { font-size: 26px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 40px; color: white; }
+        .nav-btn { padding: 14px 18px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
+        .nav-btn.active { background: var(--card); color: var(--accent); border: 1px solid var(--border); }
+
+        /* --- CONTENT --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% 0%, #0f0f1a 0%, #000 70%); }
+        .tab-panel { display: none; flex: 1; flex-direction: column; overflow-y: auto; }
+        .tab-panel.active { display: flex; }
+
+        /* --- HEADER --- */
+        .top-header { height: 110px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+        .master-clock { font-size: 42px; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+        /* --- CALENDAR CONTROLS --- */
+        .cal-nav { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+        .cal-select { background: #111; color: white; border: 1px solid var(--border); padding: 10px 15px; border-radius: 10px; outline: none; font-weight: 600; cursor: pointer; }
+        
+        .calendar-wrapper { max-width: 900px; width: 100%; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        .cal-label { text-align: center; font-size: 11px; color: var(--text-dim); font-weight: 800; padding-bottom: 10px; letter-spacing: 1px; }
+        .cal-day { aspect-ratio: 1.2; border: 1px solid var(--border); border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.2s; position: relative; }
+        .cal-day:hover { border-color: var(--accent); }
+        .cal-day.has-data { background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.3); }
+        .cal-day.selected-day { border-color: var(--accent); background: var(--accent); color: white; }
+        .cal-day.selected-day .day-total { color: white; }
+        .day-num { font-size: 15px; font-weight: 700; }
+        .day-total { font-size: 10px; color: var(--accent); margin-top: 5px; font-family: monospace; font-weight: 600; }
+
+        /* --- TASK CARDS --- */
+        .content-scroll { padding: 40px; }
+        .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px 25px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .play-btn { width: 50px; height: 50px; border-radius: 15px; border: 1px solid var(--border); background: #111; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .play-btn.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+        
+        /* --- MODAL --- */
+        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:1000; }
+        .modal-box { background: #0f0f0f; padding: 40px; border-radius: 30px; width: 400px; border: 1px solid var(--border); }
+        input { width: 100%; padding: 16px; background: #1a1a1a; border: 1px solid var(--border); color: #fff; margin: 20px 0; border-radius: 12px; outline: none; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">GYMBLE</div>
+        <div class="nav-btn active" id="btn-dash" onclick="switchTab('dashboard')">🏠 Dashboard</div>
+        <div class="nav-btn" id="btn-hist" onclick="switchTab('history')">📅 History</div>
+        <div style="margin-top: auto;">
+            <button onclick="clearAll()" style="color: #ef4444; background: none; border: none; cursor: pointer; font-size: 12px; padding: 10px;">Reset Data</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div id="dashboard" class="tab-panel active">
+            <header class="top-header">
+                <div>
+                    <span style="font-size: 11px; color: var(--text-dim); letter-spacing: 2px; font-weight: 700;">LIVE SESSION</span>
+                    <div class="master-clock" id="master-clock">00:00:00</div>
+                </div>
+                <button onclick="openModal()" style="background: white; border: none; padding: 12px 28px; border-radius: 100px; font-weight: 800; cursor: pointer;">+ New Exercise</button>
+            </header>
+            <div class="content-scroll" id="task-list"></div>
+        </div>
+
+        <div id="history" class="tab-panel">
+            <header class="top-header">
+                <h1>Archive</h1>
+                <div id="stat-total" style="font-weight: 700; color: var(--accent);">Period Total: 00:00:00</div>
+            </header>
+            <div class="content-scroll">
+                <div class="calendar-wrapper">
+                    <div class="cal-nav">
+                        <select id="select-month" class="cal-select" onchange="renderHistoryCalendar()"></select>
+                        <select id="select-year" class="cal-select" onchange="renderHistoryCalendar()"></select>
+                    </div>
+                    <div class="cal-grid" id="calendar-grid">
+                        <div class="cal-label">SUN</div><div class="cal-label">MON</div><div class="cal-label">TUE</div>
+                        <div class="cal-label">WED</div><div class="cal-label">THU</div><div class="cal-label">FRI</div><div class="cal-label">SAT</div>
+                    </div>
+                </div>
+                <div id="history-details-area" style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 30px;"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <h2>Add Exercise</h2>
+            <input type="text" id="task-input" placeholder="e.g. Deadlifts" autofocus>
+            <button onclick="saveTask()" style="width:100%; background:var(--accent); color:white; border:none; padding:16px; border-radius:12px; font-weight:700; cursor:pointer;">Create Task</button>
+            <button onclick="closeModal()" style="width:100%; background:none; border:none; color:var(--text-dim); margin-top:10px; cursor:pointer;">Cancel</button>
+        </div>
+    </div>
+
+<script>
+    let tasks = JSON.parse(localStorage.getItem('g_tasks')) || [];
+    let logs = JSON.parse(localStorage.getItem('g_logs')) || {};
+    let activeTaskId = null;
+    let timerInterval;
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    // Initialize Selects
+    const monthSelect = document.getElementById('select-month');
+    const yearSelect = document.getElementById('select-year');
+    const currDate = new Date();
+
+    months.forEach((m, i) => monthSelect.innerHTML += `<option value="${i}" ${i === currDate.getMonth() ? 'selected' : ''}>${m}</option>`);
+    for(let y=2024; y<=2030; y++) yearSelect.innerHTML += `<option value="${y}" ${y === currDate.getFullYear() ? 'selected' : ''}>${y}</option>`;
+
+    function formatTime(s) {
+        if (!s) return "00:00:00";
+        const h = Math.floor(s / 3600).toString().padStart(2, '0');
+        const m = Math.floor((s % 3600) / 60).toString().padStart(2, '0');
+        const sec = (s % 60).toString().padStart(2, '0');
+        return `${h}:${m}:${sec}`;
+    }
+
+    // --- DASHBOARD ---
+    function renderDashboard() {
+        const list = document.getElementById('task-list');
+        const todayKey = new Date().toISOString().split('T')[0];
+        let sessionTotal = 0;
+
+        list.innerHTML = tasks.map(t => {
+            const time = (logs[todayKey] && logs[todayKey][t.id]) ? logs[todayKey][t.id] : 0;
+            sessionTotal += time;
+            return `
+                <div class="task-card ${activeTaskId === t.id ? 'active' : ''}">
+                    <div>
+                        <div style="font-weight:700; font-size:19px;">${t.name}</div>
+                        <div style="color:var(--text-dim); font-family:monospace; margin-top:4px;">${formatTime(time)} tracked today</div>
+                    </div>
+                    <button class="play-btn ${activeTaskId === t.id ? 'active' : ''}" onclick="toggleTask(${t.id})">
+                        ${activeTaskId === t.id ? '■' : '▶'}
+                    </button>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('master-clock').innerText = formatTime(sessionTotal);
+    }
+
+    function toggleTask(id) {
+        if (activeTaskId === id) {
+            clearInterval(timerInterval); activeTaskId = null;
+        } else {
+            clearInterval(timerInterval);
+            activeTaskId = id;
+            timerInterval = setInterval(() => {
+                const key = new Date().toISOString().split('T')[0];
+                if (!logs[key]) logs[key] = {};
+                logs[key][id] = (logs[key][id] || 0) + 1;
+                save(); renderDashboard();
+            }, 1000);
+        }
+        renderDashboard();
+    }
+
+    // --- HISTORY CALENDAR ---
+    function renderHistoryCalendar() {
+        const grid = document.getElementById('calendar-grid');
+        const labels = grid.querySelectorAll('.cal-label');
+        grid.innerHTML = '';
+        labels.forEach(l => grid.appendChild(l));
+
+        const m = parseInt(monthSelect.value);
+        const y = parseInt(yearSelect.value);
+        const firstDay = new Date(y, m, 1).getDay();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
+
+        let periodTotal = 0;
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dateStr = `${y}-${(m+1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+            const dayData = logs[dateStr];
+            let dayTotal = 0;
+            if (dayData) { Object.values(dayData).forEach(v => dayTotal += v); periodTotal += dayTotal; }
+
+            const div = document.createElement('div');
+            div.className = `cal-day ${dayTotal > 0 ? 'has-data' : ''}`;
+            div.innerHTML = `<div class="day-num">${i}</div><div class="day-total">${dayTotal > 0 ? formatTime(dayTotal) : ''}</div>`;
+            div.onclick = () => showArchive(dateStr);
+            grid.appendChild(div);
+        }
+        document.getElementById('stat-total').innerText = `Period Total: ${formatTime(periodTotal)}`;
+    }
+
+    function showArchive(date) {
+        const area = document.getElementById('history-details-area');
+        const dayData = logs[date];
+        if (!dayData) { area.innerHTML = `<p style="color:var(--text-dim)">No activity logged for ${date}.</p>`; return; }
+        
+        let html = `<h2 style="margin-bottom:20px;">Workout Summary: ${date}</h2>`;
+        for (let tid in dayData) {
+            const t = tasks.find(x => x.id == tid);
+            html += `<div class="task-card"><b>${t ? t.name : 'Unknown'}</b> <span>${formatTime(dayData[tid])}</span></div>`;
+        }
+        area.innerHTML = html;
+    }
+
+    // --- CORE ---
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tab).classList.add('active');
+        document.getElementById(tab === 'dashboard' ? 'btn-dash' : 'btn-hist').classList.add('active');
+        if (tab === 'history') renderHistoryCalendar();
+    }
+    function openModal() { document.getElementById('modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    function saveTask() {
+        const val = document.getElementById('task-input').value;
+        if (!val) return;
+        tasks.push({ id: Date.now(), name: val });
+        save(); renderDashboard(); closeModal();
+        document.getElementById('task-input').value = '';
+    }
+    function save() {
+        localStorage.setItem('g_tasks', JSON.stringify(tasks));
+        localStorage.setItem('g_logs', JSON.stringify(logs));
+    }
+    function clearAll() { if(confirm("Erase all data?")) { localStorage.clear(); location.reload(); } }
+
+    renderDashboard();
+</script>
+</body>
+</html>
