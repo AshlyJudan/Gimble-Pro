@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Swiftlog | Developed By Surabhi</title>
+    <title>SOFTLOG v1.0 | Developed By Surabhi</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +15,7 @@
             --text: #ffffff;
             --text-dim: #71717a;
             --danger: #ef4444;
+            --success: #22c55e;
             --safe-bottom: env(safe-area-inset-bottom);
         }
 
@@ -24,17 +25,24 @@
         /* --- NAVIGATION --- */
         .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; }
         .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
-        
         .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
         .mobile-logo { font-weight: 800; letter-spacing: 1px; color: var(--accent); }
 
         .nav-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
         .nav-btn.active { color: var(--accent); background: rgba(139, 92, 246, 0.1); }
         .trademark { margin-top: 8px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: white; opacity: 0.8; }
+        
+        /* ADJUSTED SMALL VERSION AREA */
+        .ver-area { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); }
+        .ver-softlog { color: var(--accent); font-weight: 800; font-size: 14px; letter-spacing: 0.5px; }
+        .ver-number { color: #ffffff; font-weight: 600; font-size: 10px; margin-top: 1px; opacity: 0.8; }
 
-        .version-info { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
-        .version-info p { font-size: 13px; font-weight: 800; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; }
-        .version-info span { font-size: 11px; font-weight: 600; color: var(--text-dim); }
+        /* --- PUNCH AREA --- */
+        .attendance-section { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 25px; }
+        .punch-btn { padding: 10px 18px; border-radius: 12px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
+        .btn-in { background: var(--success); color: black; }
+        .btn-out { background: var(--danger); color: white; }
+        .punch-time { font-family: monospace; font-size: 14px; color: var(--accent); font-weight: 800; }
 
         /* --- MAIN CONTENT --- */
         .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% 0%, #12121e 0%, #000 70%); overflow-y: auto; padding-bottom: 80px; }
@@ -44,74 +52,78 @@
         .header { padding: 10px 0 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 25px; }
         .master-clock { font-size: clamp(35px, 9vw, 52px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
 
-        /* --- CALENDAR WITH DAY INDICATION --- */
+        /* --- HISTORY / CALENDAR --- */
         .history-container { display: flex; flex-direction: column; gap: 30px; flex: 1; overflow: hidden; }
         .calendar-section { width: 100%; max-width: 450px; }
         .cal-header-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 12px; text-align: center; }
-        .day-label { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .day-label { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
         .cal-day { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-dim); transition: 0.2s; }
-        .cal-day.empty { border: none; cursor: default; }
-        .cal-day.has-data { border-color: var(--accent); color: var(--accent); font-weight: 800; background: rgba(139, 92, 246, 0.05); }
-        .cal-day.selected { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.05); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
+        .cal-day.empty { border: none; }
+        .cal-day.has-data { border-color: var(--accent); color: var(--accent); background: rgba(139, 92, 246, 0.05); }
+        .cal-day.selected { background: var(--accent); color: white; transform: scale(1.05); }
 
-        /* --- SETTINGS INTERFACE (RESTORED) --- */
-        .settings-box { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px; margin-bottom: 15px; }
-        .settings-btn { width: 100%; text-align: left; background: #161616; border: 1px solid var(--border); color: white; padding: 18px; border-radius: 16px; font-weight: 700; margin-top: 10px; cursor: pointer; display: block; }
-
-        /* --- LOG & TASK CARDS --- */
-        .log-item { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        /* --- CARDS --- */
         .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: 0.2s; }
-        .play-btn.active { background: var(--accent); transform: scale(1.05); }
-        .fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: black; cursor: pointer; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .log-item { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; margin-bottom: 10px; }
+        .session-row { width: 100%; font-size: 11px; color: var(--text-dim); font-family: monospace; padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; display: flex; justify-content: space-between; margin-top: 5px; }
+        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 2px 8px; border-radius: 6px; text-transform: uppercase; margin-top: 4px; display: inline-block; }
+        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; }
+        .play-btn.active { background: var(--accent); transform: scale(0.95); }
 
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 3000; }
-        .modal-box { background: #0d0d0d; width: 100%; max-width: 360px; padding: 30px; border-radius: 32px; border: 1px solid var(--border); text-align: center; }
-        .modal-input { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 16px; border-radius: 16px; margin: 15px 0; font-size: 16px; outline: none; text-align: center; }
-        .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; font-size:16px; }
+        /* --- MODALS --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
+        .modal-box { background: #0a0a0a; width: 100%; max-width: 400px; padding: 35px; border-radius: 32px; border: 1px solid var(--border); }
+        .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 20px; margin-bottom: 20px; outline: none; font-size: 15px; }
+        .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; font-size: 16px; }
+        .btn-close { width: 100%; background: transparent; border: none; color: var(--text-dim); margin-top: 15px; cursor: pointer; font-weight: 600; }
+        
+        .fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: black; cursor: pointer; z-index: 999; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
-        @media (min-width: 769px) {
-            body { flex-direction: row; }
-            .history-container { flex-direction: row; }
-            .activity-section { border-left: 1px solid var(--border); padding-left: 30px; flex:1; overflow-y:auto; }
-        }
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .mobile-nav { display: flex; }
-            .mobile-header { display: block; }
-        }
+        @media (min-width: 769px) { body { flex-direction: row; } .history-container { flex-direction: row; } .activity-section { border-left: 1px solid var(--border); padding-left: 30px; flex:1; overflow-y:auto; } }
+        @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
     </style>
 </head>
 <body>
 
     <header class="mobile-header">
-        <span class="mobile-logo">SWIFTLOG</span>
-        <div style="font-size: 9px; color: var(--text-dim); font-weight: 700; margin-top: 2px;">BY SURABHI</div>
+        <span class="mobile-logo">SOFTLOG</span>
+        <div style="font-size: 8px; color: #fff; font-weight: 800;">VERSION 1.0</div>
     </header>
 
     <aside class="sidebar">
-        <div style="font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: 1px;">SWIFTLOG</div>
+        <div style="font-size: 26px; font-weight: 800; color: var(--accent);">SOFTLOG</div>
         <div class="trademark">By Surabhi</div>
         <div style="margin-top: 40px; flex: 1;">
             <div class="nav-btn active" id="d-dash" onclick="switchTab('dashboard')">💼 Dashboard</div>
-            <div class="nav-btn" id="d-hist" onclick="switchTab('history')">📅 Logs Archive</div>
+            <div class="nav-btn" id="d-hist" onclick="switchTab('history')">📅 Logs</div>
             <div class="nav-btn" id="d-sett" onclick="switchTab('settings')">⚙️ Settings</div>
         </div>
-        <div class="version-info">
-            <p>SWIFTLOG</p>
-            <span>Version 1.0</span>
+
+        <div class="ver-area">
+            <div class="ver-softlog">SOFTLOG</div>
+            <div class="ver-number">Version 1.0</div>
         </div>
     </aside>
 
     <nav class="mobile-nav">
-        <div class="nav-btn active" id="m-dash" onclick="switchTab('dashboard')">💼 Dashboard</div>
-        <div class="nav-btn" id="m-hist" onclick="switchTab('history')">📅 Archive</div>
-        <div class="nav-btn" id="m-sett" onclick="switchTab('settings')">⚙️ Settings</div>
+        <div class="nav-btn active" id="m-dash" onclick="switchTab('dashboard')">💼 Dash</div>
+        <div class="nav-btn" id="m-hist" onclick="switchTab('history')">📅 Logs</div>
+        <div class="nav-btn" id="m-sett" onclick="switchTab('settings')">⚙️ Sett</div>
     </nav>
 
     <main class="main-content">
         <div id="dashboard" class="tab-panel active">
+            <div class="attendance-section">
+                <div>
+                    <div style="font-size: 10px; color: var(--text-dim); font-weight: 800;">ATTENDANCE</div>
+                    <div id="punch-status" style="font-size: 12px; font-weight: 700;">Ready</div>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <div id="punch-time-display" class="punch-time">--:--</div>
+                    <button id="punch-btn" class="punch-btn btn-in" onclick="handlePunch()">Punch In</button>
+                </div>
+            </div>
             <div class="header">
                 <p style="font-size: 11px; color: var(--text-dim); font-weight: 800;">TOTAL WORKED TODAY</p>
                 <div class="master-clock" id="master-clock">00:00:00</div>
@@ -120,12 +132,12 @@
         </div>
 
         <div id="history" class="tab-panel">
-            <div class="header"><h1>Archive</h1></div>
+            <div class="header"><h1>Logs</h1></div>
             <div class="history-container">
                 <div class="calendar-section">
                     <div style="display:flex; gap:10px; margin-bottom:20px;">
-                        <select id="sel-m" class="modal-input" style="margin:0; padding:12px; font-size:14px;" onchange="renderHistory()"></select>
-                        <select id="sel-y" class="modal-input" style="margin:0; padding:12px; font-size:14px;" onchange="renderHistory()"></select>
+                        <select id="sel-m" class="modal-select" style="margin:0; padding:12px;" onchange="renderHistory()"></select>
+                        <select id="sel-y" class="modal-select" style="margin:0; padding:12px;" onchange="renderHistory()"></select>
                     </div>
                     <div class="cal-header-row">
                         <div class="day-label">Sun</div><div class="day-label">Mon</div><div class="day-label">Tue</div>
@@ -135,7 +147,8 @@
                     <div class="cal-grid" id="cal-grid"></div>
                 </div>
                 <div class="activity-section">
-                    <h4 id="selected-date-label" style="font-size:12px; color:var(--text-dim); margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Select a date</h4>
+                    <h4 id="selected-date-label" style="font-size:12px; color:var(--text-dim); margin-bottom:20px; text-transform:uppercase;">Select a date</h4>
+                    <div id="attendance-detail" style="margin-bottom: 20px;"></div>
                     <div id="hist-detail"></div>
                 </div>
             </div>
@@ -144,15 +157,11 @@
         <div id="settings" class="tab-panel">
             <div class="header"><h1>Settings</h1></div>
             <div style="max-width: 500px;">
-                <div class="settings-box">
-                    <h3 style="margin-bottom:10px;">Data Management</h3>
-                    <button class="settings-btn" onclick="openAuth('tasks')">✕ Reset Employee List</button>
-                    <button class="settings-btn" onclick="openAuth('all')" style="border-color:rgba(239, 68, 68, 0.2); color:var(--danger);">⚠️ Clear All App Data</button>
-                </div>
-                <div class="settings-box" style="text-align:center;">
-                    <div style="font-weight:800; color:var(--accent); text-transform:uppercase;">Swiftlog</div>
-                    <div style="font-size:12px; margin-top:5px; color:var(--text-dim);">Version 1.0</div>
-                    <div style="font-size:10px; margin-top:10px; color:white; opacity: 0.6;">Developed by Surabhi</div>
+                <div class="settings-box" style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
+                    <h3>Data Management</h3>
+                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Manage your local database storage.</p>
+                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: white; margin-bottom: 10px; text-align: left;" onclick="openAuth('tasks')">✕ Reset All Tasks</button>
+                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--danger); text-align: left;" onclick="openAuth('all')">⚠️ Master Reset</button>
                 </div>
             </div>
         </div>
@@ -160,24 +169,39 @@
 
     <div class="fab" id="main-fab" onclick="openModal()">+</div>
 
-    <div class="modal" id="auth-modal">
-        <div class="modal-box"><h2>Admin Access</h2><input type="password" id="auth-pass" class="modal-input" placeholder="••••••••"><button onclick="verifyAuth()" class="btn-prime">Verify</button><button onclick="closeAuth()" style="background:none; border:none; color:var(--text-dim); margin-top:15px; cursor:pointer;">Cancel</button></div>
-    </div>
+    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Admin Access</h2><input type="password" id="auth-pass" class="modal-input" placeholder="••••••••"><button onclick="verifyAuth()" class="btn-prime">Verify</button><button onclick="closeAuth()" class="btn-close">Cancel</button></div></div>
+    
     <div class="modal" id="modal">
-        <div class="modal-box"><h2>New Entry</h2><input type="text" id="task-input" class="modal-input" placeholder="Employee Name"><button onclick="saveTask()" class="btn-prime">Add Task</button><button onclick="closeModal()" style="background:none; border:none; color:var(--text-dim); margin-top:15px; cursor:pointer;">Cancel</button></div>
+        <div class="modal-box">
+            <h2 style="margin-bottom:20px;">New Entry</h2>
+            <input type="text" id="task-input" class="modal-input" placeholder="Task Name">
+            <select id="category-input" class="modal-select">
+                <option value="Training">Training</option>
+                <option value="Demo">Demo</option>
+                <option value="Library">Library</option>
+                <option value="Trouble Shooting">Trouble Shooting</option>
+                <option value="No Work">No Work</option>
+            </select>
+            <button onclick="saveTask()" class="btn-prime">Add Task</button>
+            <button onclick="closeModal()" class="btn-close">Cancel</button>
+        </div>
     </div>
 
 <script>
     let tasks = JSON.parse(localStorage.getItem('s_tasks')) || [];
-    let logs = JSON.parse(localStorage.getItem('s_logs')) || {};
-    let activeId = null, timer, currentAuthMode = null;
+    let logs = JSON.parse(localStorage.getItem('s_logs_v4')) || {};
+    let attendance = JSON.parse(localStorage.getItem('s_attendance')) || {};
+    let activeId = localStorage.getItem('s_activeId') ? parseInt(localStorage.getItem('s_activeId')) : null;
+    let timer, currentAuthMode = null, selectedDate = null;
     const ADMIN_PASS = "spa@cad";
 
+    // CALENDAR INITIALIZATION
     const mS = document.getElementById('sel-m'), yS = document.getElementById('sel-y'), now = new Date();
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     months.forEach((m, i) => mS.innerHTML += `<option value="${i}" ${i==now.getMonth()?'selected':''}>${m}</option>`);
     for(let y=2026; y<=2035; y++) yS.innerHTML += `<option value="${y}" ${y==now.getFullYear()?'selected':''}>${y}</option>`;
 
+    function formatTime(ts) { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
     function format(s) {
         const h = Math.floor(s/3600).toString().padStart(2,'0');
         const m = Math.floor((s%3600)/60).toString().padStart(2,'0');
@@ -185,51 +209,77 @@
         return `${h}:${m}:${sec}`;
     }
 
-    function switchTab(t) {
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(t).classList.add('active');
-        const suffix = t.substring(0,4);
-        document.getElementById('m-'+suffix).classList.add('active');
-        document.getElementById('d-'+suffix).classList.add('active');
-        document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
-        if(t === 'history') renderHistory();
+    function handlePunch() {
+        const key = new Date().toISOString().split('T')[0];
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if (!attendance[key]) attendance[key] = { in: null, out: null };
+        if (!attendance[key].in) attendance[key].in = time; else attendance[key].out = time;
+        localStorage.setItem('s_attendance', JSON.stringify(attendance));
+        updatePunchUI();
     }
 
-    function openAuth(mode) { currentAuthMode = mode; document.getElementById('auth-modal').style.display = 'flex'; }
-    function closeAuth() { document.getElementById('auth-modal').style.display = 'none'; document.getElementById('auth-pass').value = ''; }
-    
-    function verifyAuth() {
-        if(document.getElementById('auth-pass').value === ADMIN_PASS) {
-            if(currentAuthMode === 'tasks') { tasks = []; localStorage.setItem('s_tasks', JSON.stringify(tasks)); renderDashboard(); }
-            else { localStorage.clear(); location.reload(); }
-            closeAuth();
-        } else { alert("Wrong Password"); }
+    function updatePunchUI() {
+        const key = new Date().toISOString().split('T')[0];
+        const day = attendance[key];
+        const btn = document.getElementById('punch-btn'), status = document.getElementById('punch-status'), disp = document.getElementById('punch-time-display');
+        if (!day || !day.in) { 
+            btn.innerText = "Punch In"; btn.style.display = "block"; status.innerText = "Ready"; disp.innerText = "--:--"; 
+        } else if (day.in && !day.out) { 
+            btn.innerText = "Punch Out"; btn.style.display = "block"; status.innerText = "Shift Active"; disp.innerText = day.in; 
+        } else { 
+            btn.style.display = "none"; status.innerText = "Shift Done"; disp.innerText = `${day.in} - ${day.out}`; 
+        }
     }
 
     function renderDashboard() {
         const list = document.getElementById('task-list'), key = new Date().toISOString().split('T')[0];
         let total = 0;
-        list.innerHTML = tasks.length ? tasks.map(t => {
-            const time = (logs[key] && logs[key][t.id]) ? logs[key][t.id] : 0;
-            total += time;
-            return `<div class="task-card"><div><div style="font-weight:800; font-size:20px;">${t.name}</div><div style="color:var(--text-dim); font-family:monospace; margin-top:4px;">${format(time)}</div></div><button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggle(${t.id})">${activeId === t.id ? '■' : '▶'}</button></div>`;
-        }).join('') : '<p style="text-align:center; color:var(--text-dim); margin-top:40px;">No employees added.</p>';
+        list.innerHTML = tasks.map(t => {
+            let seconds = 0;
+            if(logs[key] && logs[key][t.id]) {
+                logs[key][t.id].forEach(sess => {
+                    let end = sess.end || Date.now();
+                    seconds += Math.floor((end - sess.start) / 1000);
+                });
+            }
+            total += seconds;
+            return `
+            <div class="task-card">
+                <div>
+                    <div style="font-weight:800; font-size:18px;">${t.name}</div>
+                    <div class="category-tag">${t.category}</div>
+                    <div style="color:var(--text-dim); font-family:monospace; margin-top:6px; font-weight:700;">${format(seconds)}</div>
+                </div>
+                <button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggle(${t.id})">
+                    ${activeId === t.id ? '■' : '▶'}
+                </button>
+            </div>`;
+        }).join('');
         document.getElementById('master-clock').innerText = format(total);
+        updatePunchUI();
     }
 
     function toggle(id) {
-        if(activeId === id) { clearInterval(timer); activeId = null; }
-        else {
-            clearInterval(timer); activeId = id;
-            timer = setInterval(() => {
-                const k = new Date().toISOString().split('T')[0];
-                if(!logs[k]) logs[k] = {};
-                logs[k][id] = (logs[k][id] || 0) + 1;
-                localStorage.setItem('s_logs', JSON.stringify(logs));
-                renderDashboard();
-            }, 1000);
+        const key = new Date().toISOString().split('T')[0];
+        if(!logs[key]) logs[key] = {};
+        if(!logs[key][id]) logs[key][id] = [];
+
+        if(activeId === id) {
+            clearInterval(timer); timer = null;
+            logs[key][id][logs[key][id].length - 1].end = Date.now();
+            activeId = null;
+            localStorage.removeItem('s_activeId');
+        } else {
+            if(activeId && logs[key][activeId]) {
+                 let last = logs[key][activeId][logs[key][activeId].length - 1];
+                 if(last && !last.end) last.end = Date.now();
+            }
+            activeId = id;
+            localStorage.setItem('s_activeId', id);
+            logs[key][id].push({ start: Date.now(), end: null });
+            if(!timer) timer = setInterval(renderDashboard, 1000);
         }
+        localStorage.setItem('s_logs_v4', JSON.stringify(logs));
         renderDashboard();
     }
 
@@ -238,43 +288,65 @@
         const m = parseInt(mS.value), y = parseInt(yS.value);
         const firstDay = new Date(y, m, 1).getDay();
         const totalDays = new Date(y, m + 1, 0).getDate();
-        for(let i = 0; i < firstDay; i++) {
-            const empty = document.createElement('div');
-            empty.className = 'cal-day empty';
-            grid.appendChild(empty);
-        }
+        for(let i = 0; i < firstDay; i++) grid.appendChild(Object.assign(document.createElement('div'), {className: 'cal-day empty'}));
         for(let i = 1; i <= totalDays; i++) {
             const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
             const div = document.createElement('div');
-            div.className = `cal-day ${logs[dStr] ? 'has-data' : ''}`;
+            div.className = `cal-day ${(logs[dStr] || attendance[dStr]) ? 'has-data' : ''} ${selectedDate === dStr ? 'selected' : ''}`;
             div.innerText = i;
-            div.onclick = () => {
-                document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
-                div.classList.add('selected');
-                showHist(dStr);
-            };
+            div.onclick = () => { selectedDate = dStr; renderHistory(); showHist(dStr); };
             grid.appendChild(div);
         }
     }
 
     function showHist(date) {
         document.getElementById('selected-date-label').innerText = "Logs for " + date;
-        const area = document.getElementById('hist-detail'), data = logs[date];
-        if(!data) { area.innerHTML = `<p style="color:var(--text-dim); font-size:14px;">No data found.</p>`; return; }
-        area.innerHTML = Object.keys(data).map(tid => {
+        const attArea = document.getElementById('attendance-detail'), workArea = document.getElementById('hist-detail');
+        const att = attendance[date];
+        attArea.innerHTML = att ? `<div style="background:rgba(139, 92, 246, 0.1); border: 1px dashed var(--accent); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px; color:var(--text-dim);">IN</span><br><b>${att.in || '--'}</b></div><div><span style="font-size:10px; color:var(--text-dim);">OUT</span><br><b>${att.out || '--'}</b></div></div>` : '';
+        const dayData = logs[date];
+        if(!dayData) { workArea.innerHTML = `<p style="color:var(--text-dim); font-size:14px; margin-top:10px;">No work data for this date.</p>`; return; }
+        workArea.innerHTML = Object.keys(dayData).map(tid => {
             const t = tasks.find(x => x.id == tid);
-            return `<div class="log-item"><span style="font-weight:700; font-size:16px;">${t ? t.name : 'Deleted'}</span><span style="font-family:monospace; color:var(--accent); font-weight:800; font-size:16px;">${format(data[tid])}</span></div>`;
+            const sessions = dayData[tid].map(s => {
+                const endL = s.end ? formatTime(s.end) : 'Running...';
+                return `<div class="session-row"><span>${formatTime(s.start)} — ${endL}</span></div>`;
+            }).join('');
+            const totalS = dayData[tid].reduce((acc, s) => acc + Math.floor(((s.end || Date.now()) - s.start)/1000), 0);
+            return `<div class="log-item"><div style="display:flex; justify-content:space-between; width:100%; align-items:center;"><span style="font-weight:800;">${t ? t.name : 'Deleted'}</span><span style="font-family:monospace; color:var(--accent); font-weight:800;">${format(totalS)}</span></div>${sessions}</div>`;
         }).join('');
+    }
+
+    function switchTab(t) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(t).classList.add('active');
+        const suffix = t.substring(0,4);
+        const mb = document.getElementById('m-'+suffix); if(mb) mb.classList.add('active');
+        const db = document.getElementById('d-'+suffix); if(db) db.classList.add('active');
+        if(t === 'history') { if(!selectedDate) selectedDate = new Date().toISOString().split('T')[0]; renderHistory(); showHist(selectedDate); }
+        document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
     }
 
     function openModal() { document.getElementById('modal').style.display = 'flex'; }
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
     function saveTask() {
-        const n = document.getElementById('task-input').value;
-        if(n) { tasks.push({id: Date.now(), name: n}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); }
+        const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value;
+        if(n) { tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); }
         closeModal(); document.getElementById('task-input').value = ''; renderDashboard();
     }
 
+    function openAuth(mode) { currentAuthMode = mode; document.getElementById('auth-modal').style.display = 'flex'; }
+    function closeAuth() { document.getElementById('auth-modal').style.display = 'none'; document.getElementById('auth-pass').value = ''; }
+    function verifyAuth() {
+        if(document.getElementById('auth-pass').value === ADMIN_PASS) {
+            if(currentAuthMode === 'tasks') { tasks = []; localStorage.removeItem('s_activeId'); localStorage.setItem('s_tasks', "[]"); }
+            else { localStorage.clear(); location.reload(); }
+            closeAuth(); renderDashboard();
+        } else { alert("Access Denied"); }
+    }
+
+    if(activeId) timer = setInterval(renderDashboard, 1000);
     renderDashboard();
 </script>
 </body>
