@@ -24,6 +24,11 @@
         /* --- NAVIGATION --- */
         .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; gap: 8px; }
         .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 12px 20px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
+        
+        /* Mobile Top Bar */
+        .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); justify-content: space-between; align-items: center; background: var(--bg); }
+        .settings-trigger { font-size: 20px; cursor: pointer; padding: 5px; }
+
         .nav-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 10px; }
         .nav-btn.active { color: var(--accent); background: rgba(139, 92, 246, 0.1); }
         .trademark { margin-top: 10px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: var(--accent); opacity: 0.8; }
@@ -32,14 +37,13 @@
         .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% 0%, #0f0f1a 0%, #000 70%); overflow-y: auto; padding-bottom: 80px; }
         .tab-panel { display: none; padding: 20px; height: 100%; }
         .tab-panel.active { display: flex; flex-direction: column; }
-        .header { padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        .header { padding: 10px 0 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
         .master-clock { font-size: clamp(32px, 8vw, 48px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
 
         /* --- CARDS & BUTTONS --- */
         .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; transition: 0.2s; }
-        .play-btn.active { background: var(--accent); transform: scale(1.05); }
-        
+        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .play-btn.active { background: var(--accent); }
         .fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: black; cursor: pointer; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
         /* --- CALENDAR & ARCHIVE --- */
@@ -47,14 +51,13 @@
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; max-width: 280px; }
         .cal-day { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; color: var(--text-dim); }
         .cal-day.has-data { border-color: var(--accent); color: var(--accent); font-weight: 800; }
-        .cal-day.selected { background: var(--accent); color: white; border-color: var(--accent); }
+        .cal-day.selected { background: var(--accent); color: white; }
 
-        .activity-section { flex: 1; overflow-y: auto; }
         .log-item { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
-        /* --- MODALS --- */
+        /* --- MODALS & DRAWER --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 3000; }
-        .modal-box { background: #0d0d0d; width: 100%; max-width: 360px; padding: 40px 30px; border-radius: 32px; border: 1px solid var(--border); text-align: center; }
+        .modal-box { background: #0d0d0d; width: 100%; max-width: 360px; padding: 30px; border-radius: 32px; border: 1px solid var(--border); text-align: center; }
         .modal-input { width: 100%; background: #000; border: 1px solid #333; color: white; padding: 16px; border-radius: 16px; margin: 15px 0; font-size: 16px; outline: none; }
         .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; font-size:16px; }
 
@@ -62,15 +65,24 @@
             body { flex-direction: row; }
             .history-container { flex-direction: row; }
             .calendar-section { width: 280px; }
-            .activity-section { border-left: 1px solid var(--border); padding-left: 20px; }
+            .activity-section { border-left: 1px solid var(--border); padding-left: 20px; flex:1; overflow-y:auto; }
         }
         @media (max-width: 768px) {
             .sidebar { display: none; }
             .mobile-nav { display: flex; }
+            .mobile-header { display: flex; }
         }
     </style>
 </head>
 <body>
+
+    <header class="mobile-header">
+        <div>
+            <span style="font-weight: 800; letter-spacing: 1px;">SWIFTLOG</span>
+            <div style="font-size: 9px; color: var(--accent); font-weight: 700;">BY ASHLY JUDAN</div>
+        </div>
+        <div class="settings-trigger" onclick="openSettings()">⚙️</div>
+    </header>
 
     <aside class="sidebar">
         <div style="font-size: 26px; font-weight: 800; color: white;">SWIFTLOG</div>
@@ -101,7 +113,7 @@
         </div>
 
         <div id="history" class="tab-panel">
-            <div class="header" style="margin-bottom:10px; padding:10px 0;"><h1>Archive</h1></div>
+            <div class="header" style="margin-bottom:10px;"><h1>Archive</h1></div>
             <div class="history-container">
                 <div class="calendar-section">
                     <div style="display:flex; gap:5px; margin-bottom:15px;">
@@ -110,7 +122,7 @@
                     </div>
                     <div class="cal-grid" id="cal-grid"></div>
                 </div>
-                <div class="activity-section">
+                <div class="activity-section" id="hist-detail-box">
                     <h4 id="selected-date-label" style="font-size:12px; color:var(--text-dim); margin-bottom:15px; text-transform:uppercase;">Select a date</h4>
                     <div id="hist-detail"></div>
                 </div>
@@ -119,6 +131,18 @@
     </main>
 
     <div class="fab" onclick="openModal()">+</div>
+
+    <div class="modal" id="settings-modal">
+        <div class="modal-box">
+            <h2 style="margin-bottom:5px;">SWIFTLOG</h2>
+            <div style="font-size: 11px; color: var(--accent); font-weight: 800; margin-bottom: 25px;">BY ASHLY JUDAN</div>
+            
+            <button onclick="openAuth('tasks'); closeSettings();" class="btn-prime" style="background:#1a1a1a; margin-bottom:10px;">✕ Reset Employees</button>
+            <button onclick="openAuth('all'); closeSettings();" class="btn-prime" style="background:rgba(239, 68, 68, 0.1); color:var(--danger);">⚠️ Full Clear Data</button>
+            
+            <button onclick="closeSettings()" style="background:none; border:none; color:var(--text-dim); margin-top:20px; cursor:pointer;">Close Menu</button>
+        </div>
+    </div>
 
     <div class="modal" id="auth-modal">
         <div class="modal-box">
@@ -156,6 +180,10 @@
         return `${h}:${m}:${sec}`;
     }
 
+    // Settings Toggle
+    function openSettings() { document.getElementById('settings-modal').style.display = 'flex'; }
+    function closeSettings() { document.getElementById('settings-modal').style.display = 'none'; }
+
     function openAuth(mode) { currentAuthMode = mode; document.getElementById('auth-modal').style.display = 'flex'; }
     function closeAuth() { document.getElementById('auth-modal').style.display = 'none'; document.getElementById('auth-pass').value = ''; }
     function verifyAuth() {
@@ -172,11 +200,11 @@
         list.innerHTML = tasks.length ? tasks.map(t => {
             const time = (logs[key] && logs[key][t.id]) ? logs[key][t.id] : 0;
             total += time;
-            return `<div class="task-card ${activeId === t.id ? 'active' : ''}">
+            return `<div class="task-card">
                 <div><div style="font-weight:800; font-size:20px;">${t.name}</div><div style="color:var(--text-dim); font-family:monospace; margin-top:4px;">${format(time)}</div></div>
                 <button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggle(${t.id})">${activeId === t.id ? '■' : '▶'}</button>
             </div>`;
-        }).join('') : '<p style="text-align:center; color:var(--text-dim); margin-top:40px;">No tasks added.</p>';
+        }).join('') : '<p style="text-align:center; color:var(--text-dim); margin-top:40px;">No entries.</p>';
         document.getElementById('master-clock').innerText = format(total);
     }
 
@@ -216,7 +244,7 @@
     function showHist(date) {
         document.getElementById('selected-date-label').innerText = "Summary: " + date;
         const area = document.getElementById('hist-detail'), data = logs[date];
-        if(!data) { area.innerHTML = `<p style="color:var(--text-dim); font-size:13px;">No data for this day.</p>`; return; }
+        if(!data) { area.innerHTML = `<p style="color:var(--text-dim); font-size:13px;">No data.</p>`; return; }
         area.innerHTML = Object.keys(data).map(tid => {
             const t = tasks.find(x => x.id == tid);
             return `<div class="log-item">
