@@ -32,7 +32,7 @@
         .nav-btn.active { color: var(--accent); background: rgba(139, 92, 246, 0.1); }
         .trademark { margin-top: 8px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: white; opacity: 0.8; }
         
-        /* --- SIDEBAR FOOTER (PROFILE AREA) --- */
+        /* --- SIDEBAR FOOTER --- */
         .ver-area { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); }
         .side-profile-info { margin-bottom: 12px; }
         .side-user { font-size: 14px; font-weight: 800; color: #fff; display: block; }
@@ -48,19 +48,61 @@
         .header { padding: 10px 0 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 25px; }
         .master-clock { font-size: clamp(35px, 9vw, 52px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
 
-        /* --- ATTENDANCE & CARDS --- */
+        /* --- ATTENDANCE --- */
         .attendance-section { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 25px; }
         .punch-btn { padding: 10px 18px; border-radius: 12px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
         .btn-in { background: var(--success); color: black; }
         .btn-out { background: var(--danger); color: white; }
         .punch-time { font-family: monospace; font-size: 14px; color: var(--accent); font-weight: 800; }
 
-        .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        /* --- FIXED FULL ROTATING BORDER --- */
+        .task-card { 
+            position: relative; 
+            background: var(--card); 
+            border: 1px solid var(--border);
+            border-radius: 24px; 
+            padding: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            margin-bottom: 15px; 
+            overflow: hidden; 
+            z-index: 1;
+        }
+
+        .running-glow { border: none; }
+
+        .running-glow::before {
+            content: '';
+            position: absolute;
+            height: 1000px; width: 1000px;
+            background-image: conic-gradient(transparent, var(--accent), transparent 30%);
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%); 
+            animation: spinSmooth 3s linear infinite;
+            z-index: -2;
+        }
+
+        .running-glow::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--card);
+            border-radius: 22px;
+            z-index: -1;
+        }
+
+        @keyframes spinSmooth {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .task-content { flex: 1; }
         .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 2px 8px; border-radius: 6px; text-transform: uppercase; margin-top: 4px; display: inline-block; }
-        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; }
+        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; position: relative; z-index: 10; }
         .play-btn.active { background: var(--accent); transform: scale(0.95); }
 
-        /* --- HISTORY / CALENDAR --- */
+        /* --- HISTORY & CALENDAR --- */
         .history-container { display: flex; flex-direction: column; gap: 30px; flex: 1; overflow: hidden; }
         .calendar-section { width: 100%; max-width: 450px; }
         .cal-header-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 12px; text-align: center; }
@@ -79,7 +121,6 @@
         .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 20px; margin-bottom: 20px; outline: none; font-size: 15px; }
         .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; font-size: 16px; }
         .btn-close { width: 100%; background: transparent; border: none; color: var(--text-dim); margin-top: 15px; cursor: pointer; font-weight: 600; }
-        
         .fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: black; cursor: pointer; z-index: 999; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
         @media print {
@@ -88,16 +129,13 @@
             #report-area { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 20px; }
             .no-print { display: none !important; }
         }
-
         @media (min-width: 769px) { body { flex-direction: row; } .history-container { flex-direction: row; } .activity-section { border-left: 1px solid var(--border); padding-left: 30px; flex:1; overflow-y:auto; } }
         @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
     </style>
 </head>
 <body>
 
-    <header class="mobile-header">
-        <span class="mobile-logo">SOFTLOG</span>
-    </header>
+    <header class="mobile-header"><span class="mobile-logo">SOFTLOG</span></header>
 
     <aside class="sidebar">
         <div style="font-size: 26px; font-weight: 800; color: var(--accent);">SOFTLOG</div>
@@ -155,8 +193,7 @@
                     </div>
                     <div class="cal-header-row">
                         <div class="day-label">Sun</div><div class="day-label">Mon</div><div class="day-label">Tue</div>
-                        <div class="day-label">Wed</div><div class="day-label">Thu</div><div class="day-label">Fri</div>
-                        <div class="day-label">Sat</div>
+                        <div class="day-label">Wed</div><div class="day-label">Thu</div><div class="day-label">Fri</div><div class="day-label">Sat</div>
                     </div>
                     <div class="cal-grid" id="cal-grid"></div>
                 </div>
@@ -169,24 +206,28 @@
         </div>
 
         <div id="settings" class="tab-panel">
-            <div class="header"><h1>Settings</h1></div>
-            <div style="max-width: 500px; display: flex; flex-direction: column; gap: 20px;">
+            <div class="header">
+                <h1>Settings</h1>
+                <p style="color: var(--text-dim); font-size: 12px; margin-top: 5px;">Configure your profile and security.</p>
+            </div>
+            <div style="max-width: 600px; display: flex; flex-direction: column; gap: 20px;">
                 <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
-                    <h3>Company Setup</h3>
-                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Details will appear on your Dashboard and Reports.</p>
-                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--success); text-align: left;" onclick="openModal('company-modal')">🏢 Setup Profile</button>
-                </div>
-
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
-                    <h3>Password Management</h3>
-                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Change Admin access password.</p>
-                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--accent); text-align: left;" onclick="openModal('pass-modal')">🔑 Change Admin Password</button>
-                    <button class="btn-close" style="text-align: left; font-size: 12px;" onclick="openModal('super-reset-modal')">Forgot password? Contact Super Admin</button>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="width: 45px; height: 45px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏢</div>
+                        <div><h3>Company Setup</h3><p style="color:var(--text-dim); font-size:12px;">Appears on reports.</p></div>
+                    </div>
+                    <button class="btn-prime" style="background:#161616; border:1px solid var(--border); color:var(--success); text-align:left;" onclick="openModal('company-modal')">Update Profile Details →</button>
                 </div>
                 <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
-                    <h3>Data Management</h3>
-                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Wipe all tasks and local storage.</p>
-                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--danger); text-align: left;" onclick="openAuth('all')">⚠️ Master Reset</button>
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <div style="width: 45px; height: 45px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🔑</div>
+                        <div><h3>Password Management</h3><p style="color:var(--text-dim); font-size:12px;">App security.</p></div>
+                    </div>
+                    <button class="btn-prime" style="background:#161616; border:1px solid var(--border); color:var(--accent); text-align:left; margin-bottom:10px;" onclick="openModal('pass-modal')">Change Admin Password →</button>
+                    <button class="btn-close" style="text-align:left; font-size:11px;" onclick="openModal('super-reset-modal')">Forgot password? Reset via Super Admin</button>
+                </div>
+                <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 24px; padding: 25px;">
+                    <button class="btn-prime" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.2);" onclick="openAuth('all')">⚠️ Master Reset (Wipe All Data)</button>
                 </div>
             </div>
         </div>
@@ -194,42 +235,22 @@
 
     <div class="fab" id="main-fab" onclick="openModal('task-modal')">+</div>
 
-    <div class="modal" id="company-modal">
-        <div class="modal-box">
-            <h2>Profile Setup</h2><br>
-            <input type="text" id="setup-comp" class="modal-input" placeholder="Company Name">
-            <input type="text" id="setup-user" class="modal-input" placeholder="User Full Name">
-            <input type="text" id="setup-desig" class="modal-input" placeholder="Designation">
-            <button onclick="saveCompanyProfile()" class="btn-prime">Save Details</button>
-            <button onclick="closeModal('company-modal')" class="btn-close">Cancel</button>
-        </div>
-    </div>
-
-    <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Pass</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current Password"><input type="password" id="new-pass" class="modal-input" placeholder="New Password"><input type="password" id="conf-pass" class="modal-input" placeholder="Confirm New Password"><button onclick="updateAdminPassword()" class="btn-prime">Update</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="super-reset-modal"><div class="modal-box"><h2>Super Admin Reset</h2><p style="font-size:12px; color:var(--text-dim); margin-bottom:15px;">Developer access only.</p><input type="password" id="super-pass-input" class="modal-input" placeholder="Super Admin Pass"><button onclick="processSuperReset()" class="btn-prime">Reset Admin to 123</button><button onclick="closeModal('super-reset-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Admin Password"><button onclick="verifyAuth()" class="btn-prime">Verify</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="task-modal"><div class="modal-box"><h2>New Task</h2><input type="text" id="task-input" class="modal-input" placeholder="Task Name"><select id="category-input" class="modal-select"><option value="Training">Training</option><option value="Demo">Demo</option><option value="Library">Library</option><option value="Trouble Shooting">Troubleshooting</option><option value="No Work">No Work</option></select><button onclick="saveTask()" class="btn-prime">Add Task</button><button onclick="closeModal('task-modal')" class="btn-close">Cancel</button></div></div>
-
-    <div class="modal" id="report-modal" style="background:rgba(0,0,0,0.95);">
-        <div class="modal-box" style="max-width: 90%; height: 80vh; overflow-y: auto; background: white; color: black;">
-            <div id="report-area"></div>
-            <div class="no-print" style="margin-top:20px; display:flex; gap:10px;">
-                <button onclick="window.print()" class="btn-prime">Download PDF / Print</button>
-                <button onclick="closeModal('report-modal')" class="btn-close" style="color:red; margin:0;">Close Report</button>
-            </div>
-        </div>
-    </div>
+    <div class="modal" id="company-modal"><div class="modal-box"><h2>Profile</h2><br><input type="text" id="setup-comp" class="modal-input" placeholder="Company Name"><input type="text" id="setup-user" class="modal-input" placeholder="User Name"><input type="text" id="setup-desig" class="modal-input" placeholder="Designation"><button onclick="saveCompanyProfile()" class="btn-prime">Save</button><button onclick="closeModal('company-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Password</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current"><input type="password" id="new-pass" class="modal-input" placeholder="New"><button onclick="updateAdminPassword()" class="btn-prime">Update</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Password"><button onclick="verifyAuth()" class="btn-prime">Verify & Reset</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="super-reset-modal"><div class="modal-box"><h2>Super Reset</h2><input type="password" id="super-pass-input" class="modal-input" placeholder="Super Pass"><button onclick="processSuperReset()" class="btn-prime">Reset Admin to 123</button><button onclick="closeModal('super-reset-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="task-modal"><div class="modal-box"><h2>New Task</h2><input type="text" id="task-input" class="modal-input" placeholder="Task Name"><select id="category-input" class="modal-select"><option value="Training">Training</option><option value="Demo">Demo</option><option value="Troubleshooting">Troubleshooting</option></select><button onclick="saveTask()" class="btn-prime">Add Task</button><button onclick="closeModal('task-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:90%; height:80vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div class="no-print" style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
 
 <script>
     const SUPER_ADMIN_PASS = "spa@cad";
     let adminPass = localStorage.getItem('s_admin_pass') || "123";
     let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "", name: "", desig: "" };
-
     let tasks = JSON.parse(localStorage.getItem('s_tasks')) || [];
     let logs = JSON.parse(localStorage.getItem('s_logs_v4')) || {};
     let attendance = JSON.parse(localStorage.getItem('s_attendance')) || {};
     let activeId = localStorage.getItem('s_activeId') ? parseInt(localStorage.getItem('s_activeId')) : null;
-    let timer, currentAuthMode = null, selectedDate = null;
+    let timer, selectedDate = null;
 
     const mS = document.getElementById('sel-m'), yS = document.getElementById('sel-y'), now = new Date();
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -245,26 +266,14 @@
     }
 
     function updateProfileUI() {
-        // Update Sidebar info
         document.getElementById('side-user-name').innerText = companyProfile.name || "User Name";
         document.getElementById('side-comp-name').innerText = companyProfile.company || "Company Name";
-        
-        // Populate inputs in settings modal
-        document.getElementById('setup-comp').value = companyProfile.company;
-        document.getElementById('setup-user').value = companyProfile.name;
-        document.getElementById('setup-desig').value = companyProfile.desig;
     }
 
     function saveCompanyProfile() {
-        companyProfile = {
-            company: document.getElementById('setup-comp').value,
-            name: document.getElementById('setup-user').value,
-            desig: document.getElementById('setup-desig').value
-        };
+        companyProfile = { company: document.getElementById('setup-comp').value, name: document.getElementById('setup-user').value, desig: document.getElementById('setup-desig').value };
         localStorage.setItem('s_profile', JSON.stringify(companyProfile));
-        updateProfileUI();
-        alert("Profile Updated!");
-        closeModal('company-modal');
+        updateProfileUI(); closeModal('company-modal');
     }
 
     function handlePunch() {
@@ -289,138 +298,93 @@
         const list = document.getElementById('task-list'), key = new Date().toISOString().split('T')[0];
         let total = 0;
         list.innerHTML = tasks.map(t => {
-            let seconds = 0;
-            if(logs[key] && logs[key][t.id]) {
-                logs[key][t.id].forEach(sess => {
-                    let end = sess.end || Date.now();
-                    seconds += Math.floor((end - sess.start) / 1000);
-                });
-            }
-            total += seconds;
-            return `<div class="task-card"><div><div style="font-weight:800; font-size:18px;">${t.name}</div><div class="category-tag">${t.category}</div><div style="color:var(--text-dim); font-family:monospace; margin-top:6px; font-weight:700;">${format(seconds)}</div></div><button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggle(${t.id})">${activeId === t.id ? '■' : '▶'}</button></div>`;
+            let s = 0; if(logs[key] && logs[key][t.id]) logs[key][t.id].forEach(sess => s += Math.floor(((sess.end || Date.now()) - sess.start)/1000));
+            total += s; const isRunning = (activeId === t.id);
+            return `<div class="task-card ${isRunning ? 'running-glow' : ''}">
+                <div class="task-content">
+                    <div style="font-weight:800; font-size:18px;">${t.name}</div>
+                    <div class="category-tag">${t.category}</div>
+                    <div style="color:var(--text-dim); font-family:monospace; margin-top:6px; font-weight:700;">${format(s)}</div>
+                </div>
+                <button class="play-btn ${isRunning ? 'active' : ''}" onclick="toggle(${t.id})">${isRunning ? '■' : '▶'}</button>
+            </div>`;
         }).join('');
         document.getElementById('master-clock').innerText = format(total);
-        updatePunchUI();
-        updateProfileUI();
+        updatePunchUI(); updateProfileUI();
     }
 
     function toggle(id) {
         const key = new Date().toISOString().split('T')[0];
-        if(!logs[key]) logs[key] = {};
-        if(!logs[key][id]) logs[key][id] = [];
+        if(!logs[key]) logs[key] = {}; if(!logs[key][id]) logs[key][id] = [];
         if(activeId === id) {
             clearInterval(timer); timer = null;
             logs[key][id][logs[key][id].length - 1].end = Date.now();
             activeId = null; localStorage.removeItem('s_activeId');
         } else {
-            if(activeId && logs[key][activeId]) {
-                 let last = logs[key][activeId][logs[key][activeId].length - 1];
-                 if(last && !last.end) last.end = Date.now();
-            }
+            if(activeId && logs[key][activeId]) { let last = logs[key][activeId][logs[key][activeId].length-1]; if(last && !last.end) last.end = Date.now(); }
             activeId = id; localStorage.setItem('s_activeId', id);
             logs[key][id].push({ start: Date.now(), end: null });
             if(!timer) timer = setInterval(renderDashboard, 1000);
         }
-        localStorage.setItem('s_logs_v4', JSON.stringify(logs));
-        renderDashboard();
+        localStorage.setItem('s_logs_v4', JSON.stringify(logs)); renderDashboard();
     }
 
     function renderHistory() {
         const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
         const m = parseInt(mS.value), y = parseInt(yS.value);
-        const firstDay = new Date(y, m, 1).getDay();
-        const totalDays = new Date(y, m + 1, 0).getDate();
-        for(let i = 0; i < firstDay; i++) grid.appendChild(Object.assign(document.createElement('div'), {className: 'cal-day empty'}));
-        for(let i = 1; i <= totalDays; i++) {
+        const first = new Date(y, m, 1).getDay(), total = new Date(y, m+1, 0).getDate();
+        for(let i=0; i<first; i++) grid.appendChild(Object.assign(document.createElement('div'), {className: 'cal-day empty'}));
+        for(let i=1; i<=total; i++) {
             const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
             const div = document.createElement('div');
-            div.className = `cal-day ${(logs[dStr] || attendance[dStr]) ? 'has-data' : ''} ${selectedDate === dStr ? 'selected' : ''}`;
-            div.innerText = i;
-            div.onclick = () => { selectedDate = dStr; renderHistory(); showHist(dStr); };
+            div.className = `cal-day ${(logs[dStr] || attendance[dStr])?'has-data':''} ${selectedDate===dStr?'selected':''}`;
+            div.innerText = i; div.onclick = () => { selectedDate = dStr; renderHistory(); showHist(dStr); };
             grid.appendChild(div);
         }
     }
 
     function showHist(date) {
-        document.getElementById('selected-date-label').innerText = "Logs for " + date;
+        document.getElementById('selected-date-label').innerText = "Logs: " + date;
         const attArea = document.getElementById('attendance-detail'), workArea = document.getElementById('hist-detail');
         const att = attendance[date];
-        attArea.innerHTML = att ? `<div style="background:rgba(139, 92, 246, 0.1); border:1px dashed var(--accent); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px; color:var(--text-dim);">IN</span><br><b>${att.in || '--'}</b></div><div><span style="font-size:10px; color:var(--text-dim);">OUT</span><br><b>${att.out || '--'}</b></div></div>` : '';
-        const dayData = logs[date];
-        if(!dayData) { workArea.innerHTML = `<p style="color:var(--text-dim); font-size:14px; margin-top:10px;">No work data.</p>`; return; }
+        attArea.innerHTML = att ? `<div style="background:rgba(139,92,246,0.1); border:1px dashed var(--accent); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px;">IN</span><br><b>${att.in||'--'}</b></div><div><span style="font-size:10px;">OUT</span><br><b>${att.out||'--'}</b></div></div>` : '';
+        const dayData = logs[date]; if(!dayData) { workArea.innerHTML = 'No work data'; return; }
         workArea.innerHTML = Object.keys(dayData).map(tid => {
             const t = tasks.find(x => x.id == tid);
-            const sessions = dayData[tid].map(s => `<div class="session-row"><span>${formatTime(s.start)} — ${s.end?formatTime(s.end):'...'}</span></div>`).join('');
-            const totalS = dayData[tid].reduce((acc, s) => acc + Math.floor(((s.end || Date.now()) - s.start)/1000), 0);
-            return `<div class="log-item"><div style="display:flex; justify-content:space-between; width:100%; align-items:center;"><span style="font-weight:800;">${t ? t.name : 'Deleted'}</span><span style="font-family:monospace; color:var(--accent); font-weight:800;">${format(totalS)}</span></div>${sessions}</div>`;
+            const sess = dayData[tid].map(s => `<div class="session-row"><span>${formatTime(s.start)} - ${s.end?formatTime(s.end):'...'}</span></div>`).join('');
+            const tot = dayData[tid].reduce((acc, s) => acc + Math.floor(((s.end||Date.now())-s.start)/1000), 0);
+            return `<div class="log-item"><div style="display:flex; justify-content:space-between;"><b>${t?t.name:'Del'}</b><b>${format(tot)}</b></div>${sess}</div>`;
         }).join('');
     }
 
     function generateReport() {
-        const m = parseInt(mS.value), y = parseInt(yS.value);
-        const totalDays = new Date(y, m + 1, 0).getDate();
-        let html = `<div style="text-align:center; border-bottom:2px solid #000; padding-bottom:15px; margin-bottom:20px;">`;
-        html += `<h1 style="text-transform:uppercase; margin-bottom:5px;">${companyProfile.company || "SOFTLOG REPORT"}</h1>`;
-        if(companyProfile.name) html += `<p style="font-size:14px;"><b>Employee:</b> ${companyProfile.name} (${companyProfile.desig || 'Staff'})</p>`;
-        html += `<p style="font-size:14px;"><b>Report Month:</b> ${months[m]} ${y}</p></div>`;
-        html += `<table style="width:100%; border-collapse:collapse; font-size:11px;"><thead><tr style="background:#f4f4f4;"><th style="border:1px solid #ddd; padding:8px;">Date</th><th style="border:1px solid #ddd; padding:8px;">Punch In</th><th style="border:1px solid #ddd; padding:8px;">Punch Out</th><th style="border:1px solid #ddd; padding:8px;">Work Duration</th></tr></thead><tbody>`;
-        let grandTotalSeconds = 0;
-        for(let i=1; i<=totalDays; i++) {
+        const m = parseInt(mS.value), y = parseInt(yS.value), total = new Date(y, m+1, 0).getDate();
+        let html = `<h1 style="text-align:center;">${companyProfile.company||"SOFTLOG"}</h1><p style="text-align:center;">${companyProfile.name} | ${months[m]} ${y}</p><table style="width:100%; border-collapse:collapse; margin-top:20px;"><thead><tr style="background:#eee;"><th>Date</th><th>In</th><th>Out</th><th>Work</th></tr></thead><tbody>`;
+        let g = 0; for(let i=1; i<=total; i++) {
             const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
-            const att = attendance[dStr] || {in: '-', out: '-'};
-            let dayWorkSeconds = 0;
-            if(logs[dStr]) { Object.values(logs[dStr]).forEach(taskSess => { taskSess.forEach(s => dayWorkSeconds += Math.floor(((s.end || s.start) - s.start)/1000)); }); }
-            grandTotalSeconds += dayWorkSeconds;
-            html += `<tr><td style="border:1px solid #ddd; padding:6px; text-align:center;">${i}/${m+1}/${y}</td><td style="border:1px solid #ddd; padding:6px; text-align:center;">${att.in}</td><td style="border:1px solid #ddd; padding:6px; text-align:center;">${att.out}</td><td style="border:1px solid #ddd; padding:6px; text-align:center; font-family:monospace;">${format(dayWorkSeconds)}</td></tr>`;
+            const att = attendance[dStr] || {in:'-', out:'-'};
+            let dS = 0; if(logs[dStr]) Object.values(logs[dStr]).forEach(ts => ts.forEach(s => dS += Math.floor(((s.end||s.start)-s.start)/1000)));
+            g += dS; html += `<tr><td style="border:1px solid #ddd; padding:8px; text-align:center;">${i}/${m+1}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${att.in}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${att.out}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${format(dS)}</td></tr>`;
         }
-        html += `</tbody></table><br><div style="display:flex; justify-content:space-between; margin-top:20px; font-size:14px;"><span>Total Working Days: ${totalDays}</span><b>Grand Total Hours: ${format(grandTotalSeconds)}</b></div><div style="margin-top:60px; display:flex; justify-content:space-between;"><div style="border-top:1px solid #000; width:150px; text-align:center; padding-top:5px; font-size:12px;">Employee Signature</div><div style="border-top:1px solid #000; width:150px; text-align:center; padding-top:5px; font-size:12px;">Manager Signature</div></div>`;
-        document.getElementById('report-area').innerHTML = html;
-        openModal('report-modal');
+        html += `</tbody></table><div style="text-align:right; margin-top:20px;"><b>Total: ${format(g)}</b></div>`;
+        document.getElementById('report-area').innerHTML = html; openModal('report-modal');
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    function updateAdminPassword() {
-        const oldP = document.getElementById('old-pass').value;
-        const newP = document.getElementById('new-pass').value;
-        const confP = document.getElementById('conf-pass').value;
-        if (oldP !== adminPass) { alert("Wrong current password."); return; }
-        if (newP !== confP) { alert("Mismatch."); return; }
-        adminPass = newP; localStorage.setItem('s_admin_pass', newP);
-        alert("Updated!"); closeModal('pass-modal');
-    }
-
-    function processSuperReset() {
-        if(document.getElementById('super-pass-input').value === SUPER_ADMIN_PASS) {
-            adminPass = "123"; localStorage.setItem('s_admin_pass', "123");
-            alert("Reset to 123"); closeModal('super-reset-modal');
-        } else { alert("Denied."); }
-    }
-
-    function openAuth(mode) { currentAuthMode = mode; openModal('auth-modal'); }
-    function verifyAuth() {
-        if(document.getElementById('auth-pass').value === adminPass) {
-            localStorage.clear(); location.reload();
-        } else { alert("Denied."); }
-    }
-
-    function saveTask() {
-        const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value;
-        if(n) { tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); }
-        closeModal('task-modal'); renderDashboard();
-    }
-
     function switchTab(t) {
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel, .nav-btn').forEach(x => x.classList.remove('active'));
         document.getElementById(t).classList.add('active');
-        const suffix = t.substring(0,4);
-        document.getElementById('m-'+suffix).classList.add('active');
-        document.getElementById('d-'+suffix).classList.add('active');
+        document.getElementById('m-'+t.substring(0,4)).classList.add('active');
+        document.getElementById('d-'+t.substring(0,4)).classList.add('active');
         if(t === 'history') { if(!selectedDate) selectedDate = new Date().toISOString().split('T')[0]; renderHistory(); showHist(selectedDate); }
         document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
     }
+    function updateAdminPassword() { if(document.getElementById('old-pass').value === adminPass) { adminPass = document.getElementById('new-pass').value; localStorage.setItem('s_admin_pass', adminPass); alert("Done"); closeModal('pass-modal'); } }
+    function processSuperReset() { if(document.getElementById('super-pass-input').value === SUPER_ADMIN_PASS) { adminPass = "123"; localStorage.setItem('s_admin_pass', "123"); alert("Reset to 123"); closeModal('super-reset-modal'); } }
+    function openAuth(m) { openModal('auth-modal'); }
+    function verifyAuth() { if(document.getElementById('auth-pass').value === adminPass) { localStorage.clear(); location.reload(); } }
+    function saveTask() { const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value; if(n) tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); closeModal('task-modal'); renderDashboard(); }
 
     if(activeId) timer = setInterval(renderDashboard, 1000);
     renderDashboard();
