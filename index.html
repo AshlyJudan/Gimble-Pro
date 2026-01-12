@@ -32,17 +32,13 @@
         .nav-btn.active { color: var(--accent); background: rgba(139, 92, 246, 0.1); }
         .trademark { margin-top: 8px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: white; opacity: 0.8; }
         
-        /* ADJUSTED SMALL VERSION AREA */
+        /* --- SIDEBAR FOOTER (PROFILE AREA) --- */
         .ver-area { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); }
+        .side-profile-info { margin-bottom: 12px; }
+        .side-user { font-size: 14px; font-weight: 800; color: #fff; display: block; }
+        .side-comp { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
         .ver-softlog { color: var(--accent); font-weight: 800; font-size: 14px; letter-spacing: 0.5px; }
         .ver-number { color: #ffffff; font-weight: 600; font-size: 10px; margin-top: 1px; opacity: 0.8; }
-
-        /* --- PUNCH AREA --- */
-        .attendance-section { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 25px; }
-        .punch-btn { padding: 10px 18px; border-radius: 12px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
-        .btn-in { background: var(--success); color: black; }
-        .btn-out { background: var(--danger); color: white; }
-        .punch-time { font-family: monospace; font-size: 14px; color: var(--accent); font-weight: 800; }
 
         /* --- MAIN CONTENT --- */
         .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% 0%, #12121e 0%, #000 70%); overflow-y: auto; padding-bottom: 80px; }
@@ -51,6 +47,18 @@
         
         .header { padding: 10px 0 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 25px; }
         .master-clock { font-size: clamp(35px, 9vw, 52px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
+
+        /* --- ATTENDANCE & CARDS --- */
+        .attendance-section { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 25px; }
+        .punch-btn { padding: 10px 18px; border-radius: 12px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
+        .btn-in { background: var(--success); color: black; }
+        .btn-out { background: var(--danger); color: white; }
+        .punch-time { font-family: monospace; font-size: 14px; color: var(--accent); font-weight: 800; }
+
+        .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 2px 8px; border-radius: 6px; text-transform: uppercase; margin-top: 4px; display: inline-block; }
+        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; }
+        .play-btn.active { background: var(--accent); transform: scale(0.95); }
 
         /* --- HISTORY / CALENDAR --- */
         .history-container { display: flex; flex-direction: column; gap: 30px; flex: 1; overflow: hidden; }
@@ -62,14 +70,8 @@
         .cal-day.empty { border: none; }
         .cal-day.has-data { border-color: var(--accent); color: var(--accent); background: rgba(139, 92, 246, 0.05); }
         .cal-day.selected { background: var(--accent); color: white; transform: scale(1.05); }
-
-        /* --- CARDS --- */
-        .task-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
         .log-item { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; margin-bottom: 10px; }
         .session-row { width: 100%; font-size: 11px; color: var(--text-dim); font-family: monospace; padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; display: flex; justify-content: space-between; margin-top: 5px; }
-        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 2px 8px; border-radius: 6px; text-transform: uppercase; margin-top: 4px; display: inline-block; }
-        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; }
-        .play-btn.active { background: var(--accent); transform: scale(0.95); }
 
         /* --- MODALS --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
@@ -80,6 +82,13 @@
         
         .fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: black; cursor: pointer; z-index: 999; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
+        @media print {
+            body * { visibility: hidden; }
+            #report-area, #report-area * { visibility: visible; }
+            #report-area { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 20px; }
+            .no-print { display: none !important; }
+        }
+
         @media (min-width: 769px) { body { flex-direction: row; } .history-container { flex-direction: row; } .activity-section { border-left: 1px solid var(--border); padding-left: 30px; flex:1; overflow-y:auto; } }
         @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
     </style>
@@ -88,7 +97,6 @@
 
     <header class="mobile-header">
         <span class="mobile-logo">SOFTLOG</span>
-        <div style="font-size: 8px; color: #fff; font-weight: 800;">VERSION 1.0</div>
     </header>
 
     <aside class="sidebar">
@@ -99,8 +107,11 @@
             <div class="nav-btn" id="d-hist" onclick="switchTab('history')">📅 Logs</div>
             <div class="nav-btn" id="d-sett" onclick="switchTab('settings')">⚙️ Settings</div>
         </div>
-
         <div class="ver-area">
+            <div class="side-profile-info">
+                <span class="side-user" id="side-user-name">User Name</span>
+                <span class="side-comp" id="side-comp-name">Company Name</span>
+            </div>
             <div class="ver-softlog">SOFTLOG</div>
             <div class="ver-number">Version 1.0</div>
         </div>
@@ -132,7 +143,10 @@
         </div>
 
         <div id="history" class="tab-panel">
-            <div class="header"><h1>Logs</h1></div>
+            <div class="header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h1>Logs</h1>
+                <button class="punch-btn btn-in" style="background:var(--accent); color:white; font-size:10px;" onclick="generateReport()">Monthly Report</button>
+            </div>
             <div class="history-container">
                 <div class="calendar-section">
                     <div style="display:flex; gap:10px; margin-bottom:20px;">
@@ -156,46 +170,67 @@
 
         <div id="settings" class="tab-panel">
             <div class="header"><h1>Settings</h1></div>
-            <div style="max-width: 500px;">
-                <div class="settings-box" style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
+            <div style="max-width: 500px; display: flex; flex-direction: column; gap: 20px;">
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
+                    <h3>Company Setup</h3>
+                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Details will appear on your Dashboard and Reports.</p>
+                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--success); text-align: left;" onclick="openModal('company-modal')">🏢 Setup Profile</button>
+                </div>
+
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
+                    <h3>Password Management</h3>
+                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Change Admin access password.</p>
+                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--accent); text-align: left;" onclick="openModal('pass-modal')">🔑 Change Admin Password</button>
+                    <button class="btn-close" style="text-align: left; font-size: 12px;" onclick="openModal('super-reset-modal')">Forgot password? Contact Super Admin</button>
+                </div>
+                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
                     <h3>Data Management</h3>
-                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Manage your local database storage.</p>
-                    <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: white; margin-bottom: 10px; text-align: left;" onclick="openAuth('tasks')">✕ Reset All Tasks</button>
+                    <p style="color: var(--text-dim); font-size: 13px; margin: 10px 0 20px;">Wipe all tasks and local storage.</p>
                     <button class="btn-prime" style="background: #161616; border: 1px solid var(--border); color: var(--danger); text-align: left;" onclick="openAuth('all')">⚠️ Master Reset</button>
                 </div>
             </div>
         </div>
     </main>
 
-    <div class="fab" id="main-fab" onclick="openModal()">+</div>
+    <div class="fab" id="main-fab" onclick="openModal('task-modal')">+</div>
 
-    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Admin Access</h2><input type="password" id="auth-pass" class="modal-input" placeholder="••••••••"><button onclick="verifyAuth()" class="btn-prime">Verify</button><button onclick="closeAuth()" class="btn-close">Cancel</button></div></div>
-    
-    <div class="modal" id="modal">
+    <div class="modal" id="company-modal">
         <div class="modal-box">
-            <h2 style="margin-bottom:20px;">New Entry</h2>
-            <input type="text" id="task-input" class="modal-input" placeholder="Task Name">
-            <select id="category-input" class="modal-select">
-                <option value="Training">Training</option>
-                <option value="Demo">Demo</option>
-                <option value="Library">Library</option>
-                <option value="Trouble Shooting">Trouble Shooting</option>
-                <option value="No Work">No Work</option>
-            </select>
-            <button onclick="saveTask()" class="btn-prime">Add Task</button>
-            <button onclick="closeModal()" class="btn-close">Cancel</button>
+            <h2>Profile Setup</h2><br>
+            <input type="text" id="setup-comp" class="modal-input" placeholder="Company Name">
+            <input type="text" id="setup-user" class="modal-input" placeholder="User Full Name">
+            <input type="text" id="setup-desig" class="modal-input" placeholder="Designation">
+            <button onclick="saveCompanyProfile()" class="btn-prime">Save Details</button>
+            <button onclick="closeModal('company-modal')" class="btn-close">Cancel</button>
+        </div>
+    </div>
+
+    <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Pass</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current Password"><input type="password" id="new-pass" class="modal-input" placeholder="New Password"><input type="password" id="conf-pass" class="modal-input" placeholder="Confirm New Password"><button onclick="updateAdminPassword()" class="btn-prime">Update</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="super-reset-modal"><div class="modal-box"><h2>Super Admin Reset</h2><p style="font-size:12px; color:var(--text-dim); margin-bottom:15px;">Developer access only.</p><input type="password" id="super-pass-input" class="modal-input" placeholder="Super Admin Pass"><button onclick="processSuperReset()" class="btn-prime">Reset Admin to 123</button><button onclick="closeModal('super-reset-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Admin Password"><button onclick="verifyAuth()" class="btn-prime">Verify</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="task-modal"><div class="modal-box"><h2>New Task</h2><input type="text" id="task-input" class="modal-input" placeholder="Task Name"><select id="category-input" class="modal-select"><option value="Training">Training</option><option value="Demo">Demo</option><option value="Library">Library</option><option value="Trouble Shooting">Troubleshooting</option><option value="No Work">No Work</option></select><button onclick="saveTask()" class="btn-prime">Add Task</button><button onclick="closeModal('task-modal')" class="btn-close">Cancel</button></div></div>
+
+    <div class="modal" id="report-modal" style="background:rgba(0,0,0,0.95);">
+        <div class="modal-box" style="max-width: 90%; height: 80vh; overflow-y: auto; background: white; color: black;">
+            <div id="report-area"></div>
+            <div class="no-print" style="margin-top:20px; display:flex; gap:10px;">
+                <button onclick="window.print()" class="btn-prime">Download PDF / Print</button>
+                <button onclick="closeModal('report-modal')" class="btn-close" style="color:red; margin:0;">Close Report</button>
+            </div>
         </div>
     </div>
 
 <script>
+    const SUPER_ADMIN_PASS = "spa@cad";
+    let adminPass = localStorage.getItem('s_admin_pass') || "123";
+    let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "", name: "", desig: "" };
+
     let tasks = JSON.parse(localStorage.getItem('s_tasks')) || [];
     let logs = JSON.parse(localStorage.getItem('s_logs_v4')) || {};
     let attendance = JSON.parse(localStorage.getItem('s_attendance')) || {};
     let activeId = localStorage.getItem('s_activeId') ? parseInt(localStorage.getItem('s_activeId')) : null;
     let timer, currentAuthMode = null, selectedDate = null;
-    const ADMIN_PASS = "spa@cad";
 
-    // CALENDAR INITIALIZATION
     const mS = document.getElementById('sel-m'), yS = document.getElementById('sel-y'), now = new Date();
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     months.forEach((m, i) => mS.innerHTML += `<option value="${i}" ${i==now.getMonth()?'selected':''}>${m}</option>`);
@@ -207,6 +242,29 @@
         const m = Math.floor((s%3600)/60).toString().padStart(2,'0');
         const sec = (s%60).toString().padStart(2,'0');
         return `${h}:${m}:${sec}`;
+    }
+
+    function updateProfileUI() {
+        // Update Sidebar info
+        document.getElementById('side-user-name').innerText = companyProfile.name || "User Name";
+        document.getElementById('side-comp-name').innerText = companyProfile.company || "Company Name";
+        
+        // Populate inputs in settings modal
+        document.getElementById('setup-comp').value = companyProfile.company;
+        document.getElementById('setup-user').value = companyProfile.name;
+        document.getElementById('setup-desig').value = companyProfile.desig;
+    }
+
+    function saveCompanyProfile() {
+        companyProfile = {
+            company: document.getElementById('setup-comp').value,
+            name: document.getElementById('setup-user').value,
+            desig: document.getElementById('setup-desig').value
+        };
+        localStorage.setItem('s_profile', JSON.stringify(companyProfile));
+        updateProfileUI();
+        alert("Profile Updated!");
+        closeModal('company-modal');
     }
 
     function handlePunch() {
@@ -222,13 +280,9 @@
         const key = new Date().toISOString().split('T')[0];
         const day = attendance[key];
         const btn = document.getElementById('punch-btn'), status = document.getElementById('punch-status'), disp = document.getElementById('punch-time-display');
-        if (!day || !day.in) { 
-            btn.innerText = "Punch In"; btn.style.display = "block"; status.innerText = "Ready"; disp.innerText = "--:--"; 
-        } else if (day.in && !day.out) { 
-            btn.innerText = "Punch Out"; btn.style.display = "block"; status.innerText = "Shift Active"; disp.innerText = day.in; 
-        } else { 
-            btn.style.display = "none"; status.innerText = "Shift Done"; disp.innerText = `${day.in} - ${day.out}`; 
-        }
+        if (!day || !day.in) { btn.innerText = "Punch In"; btn.style.display = "block"; status.innerText = "Ready"; disp.innerText = "--:--"; 
+        } else if (day.in && !day.out) { btn.innerText = "Punch Out"; btn.style.display = "block"; status.innerText = "Shift Active"; disp.innerText = day.in; 
+        } else { btn.style.display = "none"; status.innerText = "Shift Done"; disp.innerText = `${day.in} - ${day.out}`; }
     }
 
     function renderDashboard() {
@@ -243,39 +297,27 @@
                 });
             }
             total += seconds;
-            return `
-            <div class="task-card">
-                <div>
-                    <div style="font-weight:800; font-size:18px;">${t.name}</div>
-                    <div class="category-tag">${t.category}</div>
-                    <div style="color:var(--text-dim); font-family:monospace; margin-top:6px; font-weight:700;">${format(seconds)}</div>
-                </div>
-                <button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggle(${t.id})">
-                    ${activeId === t.id ? '■' : '▶'}
-                </button>
-            </div>`;
+            return `<div class="task-card"><div><div style="font-weight:800; font-size:18px;">${t.name}</div><div class="category-tag">${t.category}</div><div style="color:var(--text-dim); font-family:monospace; margin-top:6px; font-weight:700;">${format(seconds)}</div></div><button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggle(${t.id})">${activeId === t.id ? '■' : '▶'}</button></div>`;
         }).join('');
         document.getElementById('master-clock').innerText = format(total);
         updatePunchUI();
+        updateProfileUI();
     }
 
     function toggle(id) {
         const key = new Date().toISOString().split('T')[0];
         if(!logs[key]) logs[key] = {};
         if(!logs[key][id]) logs[key][id] = [];
-
         if(activeId === id) {
             clearInterval(timer); timer = null;
             logs[key][id][logs[key][id].length - 1].end = Date.now();
-            activeId = null;
-            localStorage.removeItem('s_activeId');
+            activeId = null; localStorage.removeItem('s_activeId');
         } else {
             if(activeId && logs[key][activeId]) {
                  let last = logs[key][activeId][logs[key][activeId].length - 1];
                  if(last && !last.end) last.end = Date.now();
             }
-            activeId = id;
-            localStorage.setItem('s_activeId', id);
+            activeId = id; localStorage.setItem('s_activeId', id);
             logs[key][id].push({ start: Date.now(), end: null });
             if(!timer) timer = setInterval(renderDashboard, 1000);
         }
@@ -303,18 +345,70 @@
         document.getElementById('selected-date-label').innerText = "Logs for " + date;
         const attArea = document.getElementById('attendance-detail'), workArea = document.getElementById('hist-detail');
         const att = attendance[date];
-        attArea.innerHTML = att ? `<div style="background:rgba(139, 92, 246, 0.1); border: 1px dashed var(--accent); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px; color:var(--text-dim);">IN</span><br><b>${att.in || '--'}</b></div><div><span style="font-size:10px; color:var(--text-dim);">OUT</span><br><b>${att.out || '--'}</b></div></div>` : '';
+        attArea.innerHTML = att ? `<div style="background:rgba(139, 92, 246, 0.1); border:1px dashed var(--accent); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px; color:var(--text-dim);">IN</span><br><b>${att.in || '--'}</b></div><div><span style="font-size:10px; color:var(--text-dim);">OUT</span><br><b>${att.out || '--'}</b></div></div>` : '';
         const dayData = logs[date];
-        if(!dayData) { workArea.innerHTML = `<p style="color:var(--text-dim); font-size:14px; margin-top:10px;">No work data for this date.</p>`; return; }
+        if(!dayData) { workArea.innerHTML = `<p style="color:var(--text-dim); font-size:14px; margin-top:10px;">No work data.</p>`; return; }
         workArea.innerHTML = Object.keys(dayData).map(tid => {
             const t = tasks.find(x => x.id == tid);
-            const sessions = dayData[tid].map(s => {
-                const endL = s.end ? formatTime(s.end) : 'Running...';
-                return `<div class="session-row"><span>${formatTime(s.start)} — ${endL}</span></div>`;
-            }).join('');
+            const sessions = dayData[tid].map(s => `<div class="session-row"><span>${formatTime(s.start)} — ${s.end?formatTime(s.end):'...'}</span></div>`).join('');
             const totalS = dayData[tid].reduce((acc, s) => acc + Math.floor(((s.end || Date.now()) - s.start)/1000), 0);
             return `<div class="log-item"><div style="display:flex; justify-content:space-between; width:100%; align-items:center;"><span style="font-weight:800;">${t ? t.name : 'Deleted'}</span><span style="font-family:monospace; color:var(--accent); font-weight:800;">${format(totalS)}</span></div>${sessions}</div>`;
         }).join('');
+    }
+
+    function generateReport() {
+        const m = parseInt(mS.value), y = parseInt(yS.value);
+        const totalDays = new Date(y, m + 1, 0).getDate();
+        let html = `<div style="text-align:center; border-bottom:2px solid #000; padding-bottom:15px; margin-bottom:20px;">`;
+        html += `<h1 style="text-transform:uppercase; margin-bottom:5px;">${companyProfile.company || "SOFTLOG REPORT"}</h1>`;
+        if(companyProfile.name) html += `<p style="font-size:14px;"><b>Employee:</b> ${companyProfile.name} (${companyProfile.desig || 'Staff'})</p>`;
+        html += `<p style="font-size:14px;"><b>Report Month:</b> ${months[m]} ${y}</p></div>`;
+        html += `<table style="width:100%; border-collapse:collapse; font-size:11px;"><thead><tr style="background:#f4f4f4;"><th style="border:1px solid #ddd; padding:8px;">Date</th><th style="border:1px solid #ddd; padding:8px;">Punch In</th><th style="border:1px solid #ddd; padding:8px;">Punch Out</th><th style="border:1px solid #ddd; padding:8px;">Work Duration</th></tr></thead><tbody>`;
+        let grandTotalSeconds = 0;
+        for(let i=1; i<=totalDays; i++) {
+            const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
+            const att = attendance[dStr] || {in: '-', out: '-'};
+            let dayWorkSeconds = 0;
+            if(logs[dStr]) { Object.values(logs[dStr]).forEach(taskSess => { taskSess.forEach(s => dayWorkSeconds += Math.floor(((s.end || s.start) - s.start)/1000)); }); }
+            grandTotalSeconds += dayWorkSeconds;
+            html += `<tr><td style="border:1px solid #ddd; padding:6px; text-align:center;">${i}/${m+1}/${y}</td><td style="border:1px solid #ddd; padding:6px; text-align:center;">${att.in}</td><td style="border:1px solid #ddd; padding:6px; text-align:center;">${att.out}</td><td style="border:1px solid #ddd; padding:6px; text-align:center; font-family:monospace;">${format(dayWorkSeconds)}</td></tr>`;
+        }
+        html += `</tbody></table><br><div style="display:flex; justify-content:space-between; margin-top:20px; font-size:14px;"><span>Total Working Days: ${totalDays}</span><b>Grand Total Hours: ${format(grandTotalSeconds)}</b></div><div style="margin-top:60px; display:flex; justify-content:space-between;"><div style="border-top:1px solid #000; width:150px; text-align:center; padding-top:5px; font-size:12px;">Employee Signature</div><div style="border-top:1px solid #000; width:150px; text-align:center; padding-top:5px; font-size:12px;">Manager Signature</div></div>`;
+        document.getElementById('report-area').innerHTML = html;
+        openModal('report-modal');
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function updateAdminPassword() {
+        const oldP = document.getElementById('old-pass').value;
+        const newP = document.getElementById('new-pass').value;
+        const confP = document.getElementById('conf-pass').value;
+        if (oldP !== adminPass) { alert("Wrong current password."); return; }
+        if (newP !== confP) { alert("Mismatch."); return; }
+        adminPass = newP; localStorage.setItem('s_admin_pass', newP);
+        alert("Updated!"); closeModal('pass-modal');
+    }
+
+    function processSuperReset() {
+        if(document.getElementById('super-pass-input').value === SUPER_ADMIN_PASS) {
+            adminPass = "123"; localStorage.setItem('s_admin_pass', "123");
+            alert("Reset to 123"); closeModal('super-reset-modal');
+        } else { alert("Denied."); }
+    }
+
+    function openAuth(mode) { currentAuthMode = mode; openModal('auth-modal'); }
+    function verifyAuth() {
+        if(document.getElementById('auth-pass').value === adminPass) {
+            localStorage.clear(); location.reload();
+        } else { alert("Denied."); }
+    }
+
+    function saveTask() {
+        const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value;
+        if(n) { tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); }
+        closeModal('task-modal'); renderDashboard();
     }
 
     function switchTab(t) {
@@ -322,28 +416,10 @@
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(t).classList.add('active');
         const suffix = t.substring(0,4);
-        const mb = document.getElementById('m-'+suffix); if(mb) mb.classList.add('active');
-        const db = document.getElementById('d-'+suffix); if(db) db.classList.add('active');
+        document.getElementById('m-'+suffix).classList.add('active');
+        document.getElementById('d-'+suffix).classList.add('active');
         if(t === 'history') { if(!selectedDate) selectedDate = new Date().toISOString().split('T')[0]; renderHistory(); showHist(selectedDate); }
         document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
-    }
-
-    function openModal() { document.getElementById('modal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
-    function saveTask() {
-        const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value;
-        if(n) { tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); }
-        closeModal(); document.getElementById('task-input').value = ''; renderDashboard();
-    }
-
-    function openAuth(mode) { currentAuthMode = mode; document.getElementById('auth-modal').style.display = 'flex'; }
-    function closeAuth() { document.getElementById('auth-modal').style.display = 'none'; document.getElementById('auth-pass').value = ''; }
-    function verifyAuth() {
-        if(document.getElementById('auth-pass').value === ADMIN_PASS) {
-            if(currentAuthMode === 'tasks') { tasks = []; localStorage.removeItem('s_activeId'); localStorage.setItem('s_tasks', "[]"); }
-            else { localStorage.clear(); location.reload(); }
-            closeAuth(); renderDashboard();
-        } else { alert("Access Denied"); }
     }
 
     if(activeId) timer = setInterval(renderDashboard, 1000);
