@@ -11,125 +11,100 @@
             --nav-bg: #080808;
             --card: #0d0d0d;
             --accent: #8b5cf6;
-            --border: rgba(255, 255, 255, 0.12);
+            --border: rgba(255, 255, 255, 0.1);
             --text: #ffffff;
             --text-dim: #71717a;
+            --fade-white: rgba(255, 255, 255, 0.6);
             --danger: #ef4444;
             --success: #22c55e;
+            --glass: rgba(255, 255, 255, 0.03);
             --safe-bottom: env(safe-area-inset-bottom);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-        /* --- NAVIGATION --- */
-        .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; }
-        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
-        .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
-        .mobile-logo { font-weight: 800; letter-spacing: 1px; color: var(--accent); }
+        /* --- BRANDING --- */
+        .brand-container { margin-bottom: 40px; }
+        .brand-name { font-size: 26px; font-weight: 800; color: var(--fade-white); letter-spacing: -1px; }
+        .brand-sub { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 800; color: var(--fade-white); opacity: 0.7; margin-top: 4px; }
+        .mobile-logo { font-weight: 800; letter-spacing: 1px; color: var(--fade-white); }
 
-        .nav-btn { padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-        .nav-btn.active { color: var(--accent); background: rgba(139, 92, 246, 0.1); }
-        .trademark { margin-top: 8px; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; color: white; opacity: 0.8; }
+        /* --- NAVIGATION --- */
+        .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; z-index: 100; }
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
+        .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
+
+        .nav-btn { padding: 14px 20px; border-radius: 14px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 12px; margin-bottom: 6px; border: 1px solid transparent; }
+        .nav-btn.active { color: #fff; background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.2); }
         
-        /* --- SIDEBAR FOOTER --- */
-        .ver-area { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); }
-        .side-profile-info { margin-bottom: 12px; }
-        .side-user { font-size: 14px; font-weight: 800; color: #fff; display: block; }
-        .side-comp { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
-        .ver-softlog { color: var(--accent); font-weight: 800; font-size: 14px; letter-spacing: 0.5px; }
-        .ver-number { color: #ffffff; font-weight: 600; font-size: 10px; margin-top: 1px; opacity: 0.8; }
+        .ver-area { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
+        .side-profile-info { margin-bottom: 15px; }
+        .side-user { font-size: 15px; font-weight: 800; color: #fff; display: block; }
+        .side-comp { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
 
         /* --- MAIN CONTENT --- */
-        .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% 0%, #12121e 0%, #000 70%); overflow-y: auto; padding-bottom: 80px; }
-        .tab-panel { display: none; padding: 25px; height: 100%; }
+        .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #000 60%); overflow-y: auto; padding-bottom: 100px; }
+        .tab-panel { display: none; padding: 25px; height: 100%; max-width: 1000px; margin: 0 auto; width: 100%; }
         .tab-panel.active { display: flex; flex-direction: column; }
         
-        .header { padding: 10px 0 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 25px; }
-        .master-clock { font-size: clamp(35px, 9vw, 52px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -2px; }
+        .header { padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px solid var(--border); }
+        .header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+        .master-clock { font-size: clamp(40px, 10vw, 64px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -3px; color: #fff; text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
 
-        /* --- ATTENDANCE --- */
-        .attendance-section { display: flex; justify-content: space-between; align-items: center; padding: 0 5px; margin-bottom: 25px; }
-        .punch-btn { padding: 10px 18px; border-radius: 12px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
-        .btn-in { background: var(--success); color: black; }
-        .btn-out { background: var(--danger); color: white; }
-        .punch-time { font-family: monospace; font-size: 14px; color: var(--accent); font-weight: 800; }
+        /* --- DASHBOARD ELEMENTS --- */
+        .attendance-card { background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .punch-btn { padding: 12px 24px; border-radius: 14px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-in { background: var(--success); color: #000; }
+        .btn-out { background: var(--danger); color: #fff; }
 
-        /* --- FIXED FULL ROTATING BORDER --- */
-        .task-card { 
-            position: relative; 
-            background: var(--card); 
-            border: 1px solid var(--border);
-            border-radius: 24px; 
-            padding: 20px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            margin-bottom: 15px; 
-            overflow: hidden; 
-            z-index: 1;
-        }
-
+        .task-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; overflow: hidden; z-index: 1; }
         .running-glow { border: none; }
-
         .running-glow::before {
-            content: '';
-            position: absolute;
-            height: 1000px; width: 1000px;
+            content: ''; position: absolute; height: 1000px; width: 1000px;
             background-image: conic-gradient(transparent, var(--accent), transparent 30%);
-            left: 50%; top: 50%;
-            transform: translate(-50%, -50%); 
-            animation: spinSmooth 3s linear infinite;
-            z-index: -2;
+            left: 50%; top: 50%; transform: translate(-50%, -50%); 
+            animation: spinSmooth 3s linear infinite; z-index: -2;
         }
+        .running-glow::after { content: ''; position: absolute; inset: 2px; background: var(--card); border-radius: 22px; z-index: -1; }
+        @keyframes spinSmooth { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .running-glow::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: var(--card);
-            border-radius: 22px;
-            z-index: -1;
-        }
+        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 4px 10px; border-radius: 8px; text-transform: uppercase; margin-top: 8px; display: inline-block; letter-spacing: 0.5px; }
+        .play-btn { width: 54px; height: 54px; border-radius: 16px; border: 1px solid var(--border); background: #111; color: white; cursor: pointer; font-size: 20px; transition: 0.3s; }
+        .play-btn.active { background: var(--accent); border-color: var(--accent); transform: scale(0.9); }
 
-        @keyframes spinSmooth {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
+        /* --- LOGS / CALENDAR --- */
+        .history-grid-layout { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        .calendar-glass { background: var(--glass); border: 1px solid var(--border); padding: 24px; border-radius: 28px; backdrop-filter: blur(10px); }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; }
+        .cal-day { aspect-ratio: 1; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; cursor: pointer; color: var(--text-dim); transition: 0.2s; border: 1px solid transparent; }
+        .cal-day.has-data { color: var(--accent); background: rgba(139, 92, 246, 0.05); }
+        .cal-day.selected { background: var(--accent); color: white; border-color: var(--accent); }
+        .log-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 18px; margin-bottom: 12px; }
+        .session-row { font-size: 11px; color: var(--text-dim); margin-top: 5px; padding-left: 5px; border-left: 1px solid var(--border); }
 
-        .task-content { flex: 1; }
-        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 2px 8px; border-radius: 6px; text-transform: uppercase; margin-top: 4px; display: inline-block; }
-        .play-btn { width: 58px; height: 58px; border-radius: 18px; border: none; background: #1a1a1a; color: white; cursor: pointer; font-size: 24px; transition: 0.2s; position: relative; z-index: 10; }
-        .play-btn.active { background: var(--accent); transform: scale(0.95); }
+        /* --- SETTINGS UI --- */
+        .settings-container { display: flex; flex-direction: column; gap: 20px; }
+        .settings-section-label { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; margin-left: 5px; }
+        .settings-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; }
+        .settings-row { display: flex; align-items: center; padding: 18px 20px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid var(--border); }
+        .settings-row:last-child { border-bottom: none; }
+        .settings-row:active { background: rgba(255,255,255,0.05); }
+        .settings-icon-box { width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; border: 1px solid var(--border); }
+        .settings-info { flex: 1; }
+        .settings-title { font-size: 15px; font-weight: 700; color: #fff; }
+        .settings-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+        .settings-arrow { color: var(--text-dim); font-size: 18px; opacity: 0.5; }
 
-        /* --- HISTORY & CALENDAR --- */
-        .history-container { display: flex; flex-direction: column; gap: 30px; flex: 1; overflow: hidden; }
-        .calendar-section { width: 100%; max-width: 450px; }
-        .cal-header-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 12px; text-align: center; }
-        .day-label { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; }
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-        .cal-day { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-dim); transition: 0.2s; }
-        .cal-day.empty { border: none; }
-        .cal-day.has-data { border-color: var(--accent); color: var(--accent); background: rgba(139, 92, 246, 0.05); }
-        .cal-day.selected { background: var(--accent); color: white; transform: scale(1.05); }
-        .log-item { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 16px 20px; margin-bottom: 10px; }
-        .session-row { width: 100%; font-size: 11px; color: var(--text-dim); font-family: monospace; padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 6px; display: flex; justify-content: space-between; margin-top: 5px; }
+        /* --- MODALS & FAB --- */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
+        .modal-box { background: #0a0a0a; width: 100%; max-width: 420px; padding: 35px; border-radius: 32px; border: 1px solid var(--border); }
+        .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 18px; margin-bottom: 18px; outline: none; font-size: 15px; }
+        .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; }
+        .btn-close { width: 100%; background: transparent; color: var(--text-dim); padding: 12px; margin-top: 10px; border: none; cursor: pointer; font-weight: 600; }
+        .fab { position: fixed; bottom: 100px; right: 25px; width: 68px; height: 68px; background: #fff; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #000; cursor: pointer; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        /* --- MODALS --- */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
-        .modal-box { background: #0a0a0a; width: 100%; max-width: 400px; padding: 35px; border-radius: 32px; border: 1px solid var(--border); }
-        .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 20px; margin-bottom: 20px; outline: none; font-size: 15px; }
-        .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; font-size: 16px; }
-        .btn-close { width: 100%; background: transparent; border: none; color: var(--text-dim); margin-top: 15px; cursor: pointer; font-weight: 600; }
-        .fab { position: fixed; bottom: 100px; right: 25px; width: 65px; height: 65px; background: white; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 35px; color: black; cursor: pointer; z-index: 999; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-
-        @media print {
-            body * { visibility: hidden; }
-            #report-area, #report-area * { visibility: visible; }
-            #report-area { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 20px; }
-            .no-print { display: none !important; }
-        }
-        @media (min-width: 769px) { body { flex-direction: row; } .history-container { flex-direction: row; } .activity-section { border-left: 1px solid var(--border); padding-left: 30px; flex:1; overflow-y:auto; } }
+        @media (min-width: 769px) { body { flex-direction: row; } .history-grid-layout { grid-template-columns: 400px 1fr; } .mobile-nav, .mobile-header { display: none; } }
         @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
     </style>
 </head>
@@ -138,20 +113,21 @@
     <header class="mobile-header"><span class="mobile-logo">SOFTLOG</span></header>
 
     <aside class="sidebar">
-        <div style="font-size: 26px; font-weight: 800; color: var(--accent);">SOFTLOG</div>
-        <div class="trademark">By Surabhi</div>
-        <div style="margin-top: 40px; flex: 1;">
+        <div class="brand-container">
+            <div class="brand-name">SOFTLOG</div>
+            <div class="brand-sub">By Surabhi</div>
+        </div>
+        <nav style="flex: 1;">
             <div class="nav-btn active" id="d-dash" onclick="switchTab('dashboard')">💼 Dashboard</div>
             <div class="nav-btn" id="d-hist" onclick="switchTab('history')">📅 Logs</div>
             <div class="nav-btn" id="d-sett" onclick="switchTab('settings')">⚙️ Settings</div>
-        </div>
+        </nav>
         <div class="ver-area">
             <div class="side-profile-info">
                 <span class="side-user" id="side-user-name">User Name</span>
                 <span class="side-comp" id="side-comp-name">Company Name</span>
             </div>
-            <div class="ver-softlog">SOFTLOG</div>
-            <div class="ver-number">Version 1.0</div>
+            <div style="color:var(--fade-white); font-weight:800; font-size:11px; letter-spacing:1px; opacity:0.6;">VERSION 1.0</div>
         </div>
     </aside>
 
@@ -163,42 +139,38 @@
 
     <main class="main-content">
         <div id="dashboard" class="tab-panel active">
-            <div class="attendance-section">
+            <div class="attendance-card">
                 <div>
-                    <div style="font-size: 10px; color: var(--text-dim); font-weight: 800;">ATTENDANCE</div>
-                    <div id="punch-status" style="font-size: 12px; font-weight: 700;">Ready</div>
+                    <p style="font-size: 10px; color: var(--text-dim); font-weight: 800; letter-spacing: 1px;">DAILY STATUS</p>
+                    <div id="punch-status" style="font-size: 14px; font-weight: 700; color: #fff; margin-top: 4px;">Ready</div>
                 </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <div id="punch-time-display" class="punch-time">--:--</div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div id="punch-time-display" style="font-family:monospace; font-size:16px; color:var(--accent); font-weight:800;">--:--</div>
                     <button id="punch-btn" class="punch-btn btn-in" onclick="handlePunch()">Punch In</button>
                 </div>
             </div>
             <div class="header">
-                <p style="font-size: 11px; color: var(--text-dim); font-weight: 800;">TOTAL WORKED TODAY</p>
+                <p style="font-size: 11px; color: var(--text-dim); font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Total Hours Tracked Today</p>
                 <div class="master-clock" id="master-clock">00:00:00</div>
             </div>
             <div id="task-list" style="overflow-y:auto; flex:1;"></div>
         </div>
 
         <div id="history" class="tab-panel">
-            <div class="header" style="display:flex; justify-content:space-between; align-items:center;">
-                <h1>Logs</h1>
-                <button class="punch-btn btn-in" style="background:var(--accent); color:white; font-size:10px;" onclick="generateReport()">Monthly Report</button>
+            <div class="header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+                <div><h1>Activity Logs</h1></div>
+                <button class="punch-btn" style="background:var(--accent); color:white; font-size:11px;" onclick="generateReport()">Monthly Report</button>
             </div>
-            <div class="history-container">
-                <div class="calendar-section">
-                    <div style="display:flex; gap:10px; margin-bottom:20px;">
-                        <select id="sel-m" class="modal-select" style="margin:0; padding:12px;" onchange="renderHistory()"></select>
-                        <select id="sel-y" class="modal-select" style="margin:0; padding:12px;" onchange="renderHistory()"></select>
-                    </div>
-                    <div class="cal-header-row">
-                        <div class="day-label">Sun</div><div class="day-label">Mon</div><div class="day-label">Tue</div>
-                        <div class="day-label">Wed</div><div class="day-label">Thu</div><div class="day-label">Fri</div><div class="day-label">Sat</div>
+            <div class="history-grid-layout">
+                <div class="calendar-glass">
+                    <div style="display:flex; gap:12px; margin-bottom:20px;">
+                        <select id="sel-m" class="modal-select" style="margin:0; padding:10px;" onchange="renderHistory()"></select>
+                        <select id="sel-y" class="modal-select" style="margin:0; padding:10px;" onchange="renderHistory()"></select>
                     </div>
                     <div class="cal-grid" id="cal-grid"></div>
                 </div>
                 <div class="activity-section">
-                    <h4 id="selected-date-label" style="font-size:12px; color:var(--text-dim); margin-bottom:20px; text-transform:uppercase;">Select a date</h4>
+                    <h4 id="selected-date-label" style="font-size:12px; color:var(--accent); margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Select Date</h4>
                     <div id="attendance-detail" style="margin-bottom: 20px;"></div>
                     <div id="hist-detail"></div>
                 </div>
@@ -208,26 +180,42 @@
         <div id="settings" class="tab-panel">
             <div class="header">
                 <h1>Settings</h1>
-                <p style="color: var(--text-dim); font-size: 12px; margin-top: 5px;">Configure your profile and security.</p>
+                <p style="color:var(--text-dim); font-size:13px; margin-top:5px;">App preferences and data management</p>
             </div>
-            <div style="max-width: 600px; display: flex; flex-direction: column; gap: 20px;">
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                        <div style="width: 45px; height: 45px; background: rgba(34, 197, 94, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🏢</div>
-                        <div><h3>Company Setup</h3><p style="color:var(--text-dim); font-size:12px;">Appears on reports.</p></div>
+            <div class="settings-container">
+                <div>
+                    <p class="settings-section-label">Account</p>
+                    <div class="settings-card">
+                        <div class="settings-row" onclick="openModal('company-modal')">
+                            <div class="settings-icon-box">👤</div>
+                            <div class="settings-info">
+                                <p class="settings-title">Profile Identity</p>
+                                <p class="settings-desc">Update name, company and designation</p>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                        <div class="settings-row" onclick="openModal('pass-modal')">
+                            <div class="settings-icon-box">🔐</div>
+                            <div class="settings-info">
+                                <p class="settings-title">Security</p>
+                                <p class="settings-desc">Change admin password</p>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
                     </div>
-                    <button class="btn-prime" style="background:#161616; border:1px solid var(--border); color:var(--success); text-align:left;" onclick="openModal('company-modal')">Update Profile Details →</button>
                 </div>
-                <div style="background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 25px;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                        <div style="width: 45px; height: 45px; background: rgba(139, 92, 246, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">🔑</div>
-                        <div><h3>Password Management</h3><p style="color:var(--text-dim); font-size:12px;">App security.</p></div>
+                <div>
+                    <p class="settings-section-label">Danger Zone</p>
+                    <div class="settings-card" style="border-color: rgba(239, 68, 68, 0.2);">
+                        <div class="settings-row" onclick="openModal('auth-modal')">
+                            <div class="settings-icon-box" style="background:rgba(239,68,68,0.1); color:var(--danger);">🗑️</div>
+                            <div class="settings-info">
+                                <p class="settings-title" style="color:var(--danger);">Master Reset</p>
+                                <p class="settings-desc">Wipe all logs and data permanently</p>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
                     </div>
-                    <button class="btn-prime" style="background:#161616; border:1px solid var(--border); color:var(--accent); text-align:left; margin-bottom:10px;" onclick="openModal('pass-modal')">Change Admin Password →</button>
-                    <button class="btn-close" style="text-align:left; font-size:11px;" onclick="openModal('super-reset-modal')">Forgot password? Reset via Super Admin</button>
-                </div>
-                <div style="background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 24px; padding: 25px;">
-                    <button class="btn-prime" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.2);" onclick="openAuth('all')">⚠️ Master Reset (Wipe All Data)</button>
                 </div>
             </div>
         </div>
@@ -235,17 +223,16 @@
 
     <div class="fab" id="main-fab" onclick="openModal('task-modal')">+</div>
 
-    <div class="modal" id="company-modal"><div class="modal-box"><h2>Profile</h2><br><input type="text" id="setup-comp" class="modal-input" placeholder="Company Name"><input type="text" id="setup-user" class="modal-input" placeholder="User Name"><input type="text" id="setup-desig" class="modal-input" placeholder="Designation"><button onclick="saveCompanyProfile()" class="btn-prime">Save</button><button onclick="closeModal('company-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Password</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current"><input type="password" id="new-pass" class="modal-input" placeholder="New"><button onclick="updateAdminPassword()" class="btn-prime">Update</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Password"><button onclick="verifyAuth()" class="btn-prime">Verify & Reset</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="super-reset-modal"><div class="modal-box"><h2>Super Reset</h2><input type="password" id="super-pass-input" class="modal-input" placeholder="Super Pass"><button onclick="processSuperReset()" class="btn-prime">Reset Admin to 123</button><button onclick="closeModal('super-reset-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="task-modal"><div class="modal-box"><h2>New Task</h2><input type="text" id="task-input" class="modal-input" placeholder="Task Name"><select id="category-input" class="modal-select"><option value="Training">Training</option><option value="Demo">Demo</option><option value="Troubleshooting">Troubleshooting</option></select><button onclick="saveTask()" class="btn-prime">Add Task</button><button onclick="closeModal('task-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:90%; height:80vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div class="no-print" style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
+    <div class="modal" id="task-modal"><div class="modal-box"><h2>New Task</h2><br><input type="text" id="task-input" class="modal-input" placeholder="Task Name"><select id="category-input" class="modal-select"><option value="Training">Training</option><option value="Demo">Demo</option><option value="Troubleshooting">Troubleshooting</option></select><button onclick="saveTask()" class="btn-prime">Create Task</button><button onclick="closeModal('task-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="company-modal"><div class="modal-box"><h2>Profile</h2><br><input type="text" id="setup-comp" class="modal-input" placeholder="Company Name"><input type="text" id="setup-user" class="modal-input" placeholder="Your Name"><input type="text" id="setup-desig" class="modal-input" placeholder="Designation"><button onclick="saveCompanyProfile()" class="btn-prime">Save</button><button onclick="closeModal('company-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Password</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current Password"><input type="password" id="new-pass" class="modal-input" placeholder="New Password"><button onclick="updateAdminPassword()" class="btn-prime">Update Security</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Password"><button onclick="verifyAuth()" class="btn-prime" style="background:var(--danger);">Reset Data</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print PDF</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
 
 <script>
     const SUPER_ADMIN_PASS = "spa@cad";
     let adminPass = localStorage.getItem('s_admin_pass') || "123";
-    let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "", name: "", desig: "" };
+    let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "SOFTLOG Inc.", name: "Surabhi", desig: "Developer" };
     let tasks = JSON.parse(localStorage.getItem('s_tasks')) || [];
     let logs = JSON.parse(localStorage.getItem('s_logs_v4')) || {};
     let attendance = JSON.parse(localStorage.getItem('s_attendance')) || {};
@@ -266,8 +253,11 @@
     }
 
     function updateProfileUI() {
-        document.getElementById('side-user-name').innerText = companyProfile.name || "User Name";
-        document.getElementById('side-comp-name').innerText = companyProfile.company || "Company Name";
+        document.getElementById('side-user-name').innerText = companyProfile.name;
+        document.getElementById('side-comp-name').innerText = companyProfile.company;
+        document.getElementById('setup-comp').value = companyProfile.company;
+        document.getElementById('setup-user').value = companyProfile.name;
+        document.getElementById('setup-desig').value = companyProfile.desig;
     }
 
     function saveCompanyProfile() {
@@ -286,11 +276,10 @@
     }
 
     function updatePunchUI() {
-        const key = new Date().toISOString().split('T')[0];
-        const day = attendance[key];
+        const key = new Date().toISOString().split('T')[0], day = attendance[key];
         const btn = document.getElementById('punch-btn'), status = document.getElementById('punch-status'), disp = document.getElementById('punch-time-display');
-        if (!day || !day.in) { btn.innerText = "Punch In"; btn.style.display = "block"; status.innerText = "Ready"; disp.innerText = "--:--"; 
-        } else if (day.in && !day.out) { btn.innerText = "Punch Out"; btn.style.display = "block"; status.innerText = "Shift Active"; disp.innerText = day.in; 
+        if (!day || !day.in) { btn.innerText = "Punch In"; btn.className = "punch-btn btn-in"; status.innerText = "Ready"; disp.innerText = "--:--"; 
+        } else if (day.in && !day.out) { btn.innerText = "Punch Out"; btn.className = "punch-btn btn-out"; status.innerText = "Shift Active"; disp.innerText = day.in; 
         } else { btn.style.display = "none"; status.innerText = "Shift Done"; disp.innerText = `${day.in} - ${day.out}`; }
     }
 
@@ -304,7 +293,7 @@
                 <div class="task-content">
                     <div style="font-weight:800; font-size:18px;">${t.name}</div>
                     <div class="category-tag">${t.category}</div>
-                    <div style="color:var(--text-dim); font-family:monospace; margin-top:6px; font-weight:700;">${format(s)}</div>
+                    <div style="color:var(--text-dim); font-family:monospace; margin-top:10px; font-weight:700;">${format(s)}</div>
                 </div>
                 <button class="play-btn ${isRunning ? 'active' : ''}" onclick="toggle(${t.id})">${isRunning ? '■' : '▶'}</button>
             </div>`;
@@ -344,34 +333,32 @@
     }
 
     function showHist(date) {
-        document.getElementById('selected-date-label').innerText = "Logs: " + date;
+        document.getElementById('selected-date-label').innerText = "Timeline: " + date;
         const attArea = document.getElementById('attendance-detail'), workArea = document.getElementById('hist-detail');
         const att = attendance[date];
-        attArea.innerHTML = att ? `<div style="background:rgba(139,92,246,0.1); border:1px dashed var(--accent); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px;">IN</span><br><b>${att.in||'--'}</b></div><div><span style="font-size:10px;">OUT</span><br><b>${att.out||'--'}</b></div></div>` : '';
-        const dayData = logs[date]; if(!dayData) { workArea.innerHTML = 'No work data'; return; }
+        attArea.innerHTML = att ? `<div style="background:rgba(139,92,246,0.1); border:1px solid var(--border); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px;">IN</span><br><b>${att.in||'--'}</b></div><div><span style="font-size:10px;">OUT</span><br><b>${att.out||'--'}</b></div></div>` : '';
+        const dayData = logs[date]; if(!dayData) { workArea.innerHTML = 'No logs'; return; }
         workArea.innerHTML = Object.keys(dayData).map(tid => {
             const t = tasks.find(x => x.id == tid);
-            const sess = dayData[tid].map(s => `<div class="session-row"><span>${formatTime(s.start)} - ${s.end?formatTime(s.end):'...'}</span></div>`).join('');
+            const sess = dayData[tid].map(s => `<div class="session-row"><span>${formatTime(s.start)} - ${s.end?formatTime(s.end):'Active'}</span></div>`).join('');
             const tot = dayData[tid].reduce((acc, s) => acc + Math.floor(((s.end||Date.now())-s.start)/1000), 0);
-            return `<div class="log-item"><div style="display:flex; justify-content:space-between;"><b>${t?t.name:'Del'}</b><b>${format(tot)}</b></div>${sess}</div>`;
+            return `<div class="log-card"><div style="display:flex; justify-content:space-between;"><b>${t?t.name:'Deleted'}</b><b style="color:var(--accent);">${format(tot)}</b></div>${sess}</div>`;
         }).join('');
     }
 
     function generateReport() {
         const m = parseInt(mS.value), y = parseInt(yS.value), total = new Date(y, m+1, 0).getDate();
-        let html = `<h1 style="text-align:center;">${companyProfile.company||"SOFTLOG"}</h1><p style="text-align:center;">${companyProfile.name} | ${months[m]} ${y}</p><table style="width:100%; border-collapse:collapse; margin-top:20px;"><thead><tr style="background:#eee;"><th>Date</th><th>In</th><th>Out</th><th>Work</th></tr></thead><tbody>`;
+        let html = `<div style="padding:40px;"><h1>${companyProfile.company}</h1><p>${companyProfile.name} (${companyProfile.desig}) | ${months[m]} ${y}</p><table border="1" style="width:100%; border-collapse:collapse; margin-top:20px;"><tr><th>Date</th><th>In</th><th>Out</th><th>Hours</th></tr>`;
         let g = 0; for(let i=1; i<=total; i++) {
             const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
             const att = attendance[dStr] || {in:'-', out:'-'};
             let dS = 0; if(logs[dStr]) Object.values(logs[dStr]).forEach(ts => ts.forEach(s => dS += Math.floor(((s.end||s.start)-s.start)/1000)));
-            g += dS; html += `<tr><td style="border:1px solid #ddd; padding:8px; text-align:center;">${i}/${m+1}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${att.in}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${att.out}</td><td style="border:1px solid #ddd; padding:8px; text-align:center;">${format(dS)}</td></tr>`;
+            g += dS; html += `<tr><td>${i}/${m+1}</td><td>${att.in}</td><td>${att.out}</td><td>${format(dS)}</td></tr>`;
         }
-        html += `</tbody></table><div style="text-align:right; margin-top:20px;"><b>Total: ${format(g)}</b></div>`;
+        html += `</table><h3>Total: ${format(g)}</h3></div>`;
         document.getElementById('report-area').innerHTML = html; openModal('report-modal');
     }
 
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function switchTab(t) {
         document.querySelectorAll('.tab-panel, .nav-btn').forEach(x => x.classList.remove('active'));
         document.getElementById(t).classList.add('active');
@@ -380,10 +367,21 @@
         if(t === 'history') { if(!selectedDate) selectedDate = new Date().toISOString().split('T')[0]; renderHistory(); showHist(selectedDate); }
         document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
     }
-    function updateAdminPassword() { if(document.getElementById('old-pass').value === adminPass) { adminPass = document.getElementById('new-pass').value; localStorage.setItem('s_admin_pass', adminPass); alert("Done"); closeModal('pass-modal'); } }
-    function processSuperReset() { if(document.getElementById('super-pass-input').value === SUPER_ADMIN_PASS) { adminPass = "123"; localStorage.setItem('s_admin_pass', "123"); alert("Reset to 123"); closeModal('super-reset-modal'); } }
-    function openAuth(m) { openModal('auth-modal'); }
-    function verifyAuth() { if(document.getElementById('auth-pass').value === adminPass) { localStorage.clear(); location.reload(); } }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function verifyAuth() { 
+        const p = document.getElementById('auth-pass').value;
+        if(p === adminPass || p === SUPER_ADMIN_PASS) { localStorage.clear(); location.reload(); } 
+        else { alert("Verification Failed"); }
+    }
+    function updateAdminPassword() { 
+        if(document.getElementById('old-pass').value === adminPass) { 
+            adminPass = document.getElementById('new-pass').value; 
+            localStorage.setItem('s_admin_pass', adminPass); 
+            alert("Security Updated"); closeModal('pass-modal'); 
+        } 
+    }
     function saveTask() { const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value; if(n) tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); closeModal('task-modal'); renderDashboard(); }
 
     if(activeId) timer = setInterval(renderDashboard, 1000);
