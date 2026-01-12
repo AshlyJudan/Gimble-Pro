@@ -106,6 +106,11 @@
 
         @media (min-width: 769px) { body { flex-direction: row; } .history-grid-layout { grid-template-columns: 400px 1fr; } .mobile-nav, .mobile-header { display: none; } }
         @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; }
+        }
     </style>
 </head>
 <body>
@@ -124,8 +129,8 @@
         </nav>
         <div class="ver-area">
             <div class="side-profile-info">
-                <span class="side-user" id="side-user-name">User Name</span>
-                <span class="side-comp" id="side-comp-name">Company Name</span>
+                <span class="side-user" id="side-user-name">Loading...</span>
+                <span class="side-comp" id="side-comp-name">SOFTLOG Inc.</span>
             </div>
             <div style="color:var(--fade-white); font-weight:800; font-size:11px; letter-spacing:1px; opacity:0.6;">VERSION 1.0</div>
         </div>
@@ -178,28 +183,19 @@
         </div>
 
         <div id="settings" class="tab-panel">
-            <div class="header">
-                <h1>Settings</h1>
-                <p style="color:var(--text-dim); font-size:13px; margin-top:5px;">App preferences and data management</p>
-            </div>
+            <div class="header"><h1>Settings</h1></div>
             <div class="settings-container">
                 <div>
                     <p class="settings-section-label">Account</p>
                     <div class="settings-card">
                         <div class="settings-row" onclick="openModal('company-modal')">
                             <div class="settings-icon-box">👤</div>
-                            <div class="settings-info">
-                                <p class="settings-title">Profile Identity</p>
-                                <p class="settings-desc">Update name, company and designation</p>
-                            </div>
+                            <div class="settings-info"><p class="settings-title">Profile Identity</p><p class="settings-desc">Name, Company, Designation</p></div>
                             <div class="settings-arrow">›</div>
                         </div>
                         <div class="settings-row" onclick="openModal('pass-modal')">
                             <div class="settings-icon-box">🔐</div>
-                            <div class="settings-info">
-                                <p class="settings-title">Security</p>
-                                <p class="settings-desc">Change admin password</p>
-                            </div>
+                            <div class="settings-info"><p class="settings-title">Security</p><p class="settings-desc">Change admin password</p></div>
                             <div class="settings-arrow">›</div>
                         </div>
                     </div>
@@ -209,10 +205,7 @@
                     <div class="settings-card" style="border-color: rgba(239, 68, 68, 0.2);">
                         <div class="settings-row" onclick="openModal('auth-modal')">
                             <div class="settings-icon-box" style="background:rgba(239,68,68,0.1); color:var(--danger);">🗑️</div>
-                            <div class="settings-info">
-                                <p class="settings-title" style="color:var(--danger);">Master Reset</p>
-                                <p class="settings-desc">Wipe all logs and data permanently</p>
-                            </div>
+                            <div class="settings-info"><p class="settings-title" style="color:var(--danger);">Master Reset</p><p class="settings-desc">Wipe all local data</p></div>
                             <div class="settings-arrow">›</div>
                         </div>
                     </div>
@@ -227,7 +220,7 @@
     <div class="modal" id="company-modal"><div class="modal-box"><h2>Profile</h2><br><input type="text" id="setup-comp" class="modal-input" placeholder="Company Name"><input type="text" id="setup-user" class="modal-input" placeholder="Your Name"><input type="text" id="setup-desig" class="modal-input" placeholder="Designation"><button onclick="saveCompanyProfile()" class="btn-prime">Save</button><button onclick="closeModal('company-modal')" class="btn-close">Cancel</button></div></div>
     <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Password</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current Password"><input type="password" id="new-pass" class="modal-input" placeholder="New Password"><button onclick="updateAdminPassword()" class="btn-prime">Update Security</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
     <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Password"><button onclick="verifyAuth()" class="btn-prime" style="background:var(--danger);">Reset Data</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
-    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print PDF</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
+    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div class="no-print" style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print PDF</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
 
 <script>
     const SUPER_ADMIN_PASS = "spa@cad";
@@ -337,7 +330,7 @@
         const attArea = document.getElementById('attendance-detail'), workArea = document.getElementById('hist-detail');
         const att = attendance[date];
         attArea.innerHTML = att ? `<div style="background:rgba(139,92,246,0.1); border:1px solid var(--border); padding:15px; border-radius:15px; display:flex; justify-content:space-between;"><div><span style="font-size:10px;">IN</span><br><b>${att.in||'--'}</b></div><div><span style="font-size:10px;">OUT</span><br><b>${att.out||'--'}</b></div></div>` : '';
-        const dayData = logs[date]; if(!dayData) { workArea.innerHTML = 'No logs'; return; }
+        const dayData = logs[date]; if(!dayData) { workArea.innerHTML = 'No work logs'; return; }
         workArea.innerHTML = Object.keys(dayData).map(tid => {
             const t = tasks.find(x => x.id == tid);
             const sess = dayData[tid].map(s => `<div class="session-row"><span>${formatTime(s.start)} - ${s.end?formatTime(s.end):'Active'}</span></div>`).join('');
@@ -348,14 +341,14 @@
 
     function generateReport() {
         const m = parseInt(mS.value), y = parseInt(yS.value), total = new Date(y, m+1, 0).getDate();
-        let html = `<div style="padding:40px;"><h1>${companyProfile.company}</h1><p>${companyProfile.name} (${companyProfile.desig}) | ${months[m]} ${y}</p><table border="1" style="width:100%; border-collapse:collapse; margin-top:20px;"><tr><th>Date</th><th>In</th><th>Out</th><th>Hours</th></tr>`;
+        let html = `<div style="font-family:sans-serif; padding:40px;"><h1 style="text-align:center; margin-bottom:5px;">${companyProfile.company}</h1><p style="text-align:center; color:#555; margin-bottom:25px;">${companyProfile.name} | ${companyProfile.desig}<br>${months[m]} ${y}</p><table style="width:100%; border-collapse:collapse; margin-top:20px;"><thead><tr style="background:#f4f4f4;"><th style="border:1px solid #ddd; padding:12px;">Date</th><th style="border:1px solid #ddd; padding:12px;">Punch In</th><th style="border:1px solid #ddd; padding:12px;">Punch Out</th><th style="border:1px solid #ddd; padding:12px;">Work Hours</th></tr></thead><tbody>`;
         let g = 0; for(let i=1; i<=total; i++) {
             const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
             const att = attendance[dStr] || {in:'-', out:'-'};
             let dS = 0; if(logs[dStr]) Object.values(logs[dStr]).forEach(ts => ts.forEach(s => dS += Math.floor(((s.end||s.start)-s.start)/1000)));
-            g += dS; html += `<tr><td>${i}/${m+1}</td><td>${att.in}</td><td>${att.out}</td><td>${format(dS)}</td></tr>`;
+            g += dS; html += `<tr><td style="border:1px solid #ddd; padding:10px; text-align:center;">${i}/${m+1}</td><td style="border:1px solid #ddd; padding:10px; text-align:center;">${att.in}</td><td style="border:1px solid #ddd; padding:10px; text-align:center;">${att.out}</td><td style="border:1px solid #ddd; padding:10px; text-align:center;">${format(dS)}</td></tr>`;
         }
-        html += `</table><h3>Total: ${format(g)}</h3></div>`;
+        html += `</tbody></table><div style="text-align:right; margin-top:30px; font-size:20px;"><strong>Grand Total: ${format(g)}</strong></div></div>`;
         document.getElementById('report-area').innerHTML = html; openModal('report-modal');
     }
 
@@ -370,18 +363,8 @@
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function verifyAuth() { 
-        const p = document.getElementById('auth-pass').value;
-        if(p === adminPass || p === SUPER_ADMIN_PASS) { localStorage.clear(); location.reload(); } 
-        else { alert("Verification Failed"); }
-    }
-    function updateAdminPassword() { 
-        if(document.getElementById('old-pass').value === adminPass) { 
-            adminPass = document.getElementById('new-pass').value; 
-            localStorage.setItem('s_admin_pass', adminPass); 
-            alert("Security Updated"); closeModal('pass-modal'); 
-        } 
-    }
+    function verifyAuth() { const p = document.getElementById('auth-pass').value; if(p === adminPass || p === SUPER_ADMIN_PASS) { localStorage.clear(); location.reload(); } else { alert("Verification Failed"); } }
+    function updateAdminPassword() { if(document.getElementById('old-pass').value === adminPass) { adminPass = document.getElementById('new-pass').value; localStorage.setItem('s_admin_pass', adminPass); alert("Updated"); closeModal('pass-modal'); } }
     function saveTask() { const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value; if(n) tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); closeModal('task-modal'); renderDashboard(); }
 
     if(activeId) timer = setInterval(renderDashboard, 1000);
