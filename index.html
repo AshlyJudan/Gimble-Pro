@@ -24,6 +24,73 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
+        /* --- SPLASH SCREEN / LOGO ANIMATION --- */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .logo-box {
+            position: relative;
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -1px;
+            animation: logoScale 1.5s ease-in-out infinite alternate;
+        }
+
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--accent);
+            animation: lineExpand 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes logoScale {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes lineExpand {
+            from { width: 20px; opacity: 0.3; }
+            to { width: 80px; opacity: 1; }
+        }
+
+        .loader-dots {
+            margin-top: 30px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: dotPulse 1.2s infinite ease-in-out;
+        }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
+
         /* --- BRANDING --- */
         .brand-container { margin-bottom: 40px; }
         .brand-name { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
@@ -73,7 +140,7 @@
         .play-btn { width: 54px; height: 54px; border-radius: 16px; border: 1px solid var(--border); background: #111; color: white; cursor: pointer; font-size: 20px; transition: 0.3s; }
         .play-btn.active { background: var(--accent); border-color: var(--accent); transform: scale(0.9); }
 
-        /* --- UPDATED LOGS UI (FIXED STRETCHING) --- */
+        /* --- LOGS UI --- */
         .history-grid-layout { display: grid; grid-template-columns: 1fr; gap: 30px; flex: 1; overflow: hidden; }
         .calendar-glass { background: var(--glass); border: 1px solid var(--border); padding: 24px; border-radius: 28px; backdrop-filter: blur(10px); height: fit-content; align-self: flex-start; }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; }
@@ -116,6 +183,15 @@
     </style>
 </head>
 <body>
+
+    <div id="splash-screen">
+        <div class="logo-box">SOFTLOG</div>
+        <div class="loader-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
 
     <header class="mobile-header"><span class="mobile-logo">SOFTLOG</span></header>
 
@@ -222,6 +298,17 @@
     <div class="modal" id="report-modal"><div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div class="no-print" style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print PDF</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
 
 <script>
+    // --- SPLASH SCREEN LOGIC ---
+    window.addEventListener('load', () => {
+        const splash = document.getElementById('splash-screen');
+        setTimeout(() => {
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.visibility = 'hidden';
+            }, 800); // Wait for fade transition
+        }, 2500); // Show splash for 2.5 seconds
+    });
+
     const SUPER_ADMIN_PASS = "spa@cad";
     let adminPass = localStorage.getItem('s_admin_pass') || "123";
     let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "SOFTLOG Inc.", name: "Surabhi", desig: "Developer" };
