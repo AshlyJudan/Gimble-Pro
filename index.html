@@ -305,8 +305,8 @@
             splash.style.opacity = '0';
             setTimeout(() => {
                 splash.style.visibility = 'hidden';
-            }, 800); // Wait for fade transition
-        }, 2500); // Show splash for 2.5 seconds
+            }, 800); 
+        }, 2500);
     });
 
     const SUPER_ADMIN_PASS = "spa@cad";
@@ -338,8 +338,27 @@
         document.getElementById('side-comp-name').innerText = companyProfile.company;
     }
 
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function saveTask() {
+        const input = document.getElementById('task-input');
+        const cat = document.getElementById('category-input').value;
+        if(input.value) {
+            tasks.push({ id: Date.now(), name: input.value, category: cat });
+            localStorage.setItem('s_tasks', JSON.stringify(tasks));
+            input.value = '';
+            closeModal('task-modal');
+            renderDashboard();
+        }
+    }
+
     function saveCompanyProfile() {
-        companyProfile = { company: document.getElementById('setup-comp').value, name: document.getElementById('setup-user').value, desig: document.getElementById('setup-desig').value };
+        companyProfile = { 
+            company: document.getElementById('setup-comp').value, 
+            name: document.getElementById('setup-user').value, 
+            desig: document.getElementById('setup-desig').value 
+        };
         localStorage.setItem('s_profile', JSON.stringify(companyProfile));
         updateProfileUI(); closeModal('company-modal');
     }
@@ -448,6 +467,29 @@
         document.getElementById('report-area').innerHTML = html; openModal('report-modal');
     }
 
+    function updateAdminPassword() {
+        const oldP = document.getElementById('old-pass').value;
+        const newP = document.getElementById('new-pass').value;
+        if(oldP === adminPass) {
+            adminPass = newP;
+            localStorage.setItem('s_admin_pass', newP);
+            alert('Password updated successfully');
+            closeModal('pass-modal');
+        } else {
+            alert('Current password incorrect');
+        }
+    }
+
+    function verifyAuth() {
+        const p = document.getElementById('auth-pass').value;
+        if(p === adminPass || p === SUPER_ADMIN_PASS) {
+            localStorage.clear();
+            location.reload();
+        } else {
+            alert("Incorrect Password");
+        }
+    }
+
     function switchTab(t) {
         document.querySelectorAll('.tab-panel, .nav-btn').forEach(x => x.classList.remove('active'));
         document.getElementById(t).classList.add('active');
@@ -457,28 +499,12 @@
             if(!selectedDate) selectedDate = new Date().toISOString().split('T')[0]; 
             renderHistory(); showHist(selectedDate); 
         }
-        document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
     }
 
-    function openModal(id) { 
-        document.getElementById(id).style.display = 'flex'; 
-        if(id==='company-modal') {
-            document.getElementById('setup-comp').value = companyProfile.company;
-            document.getElementById('setup-user').value = companyProfile.name;
-            document.getElementById('setup-desig').value = companyProfile.desig;
-        }
-    }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function verifyAuth() { const p = document.getElementById('auth-pass').value; if(p === adminPass || p === SUPER_ADMIN_PASS) { localStorage.clear(); location.reload(); } else alert("Failed"); }
-    function updateAdminPassword() { if(document.getElementById('old-pass').value === adminPass) { adminPass = document.getElementById('new-pass').value; localStorage.setItem('s_admin_pass', adminPass); alert("Updated"); closeModal('pass-modal'); } }
-    
-    function saveTask() { 
-        const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value; 
-        if(n) { tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); closeModal('task-modal'); document.getElementById('task-input').value = ''; renderDashboard(); }
-    }
-
-    if(activeId) timer = setInterval(renderDashboard, 1000);
+    // Init Logic
     renderDashboard();
+    if(activeId) timer = setInterval(renderDashboard, 1000);
+
 </script>
 </body>
 </html>
