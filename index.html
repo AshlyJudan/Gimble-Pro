@@ -24,55 +24,108 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-        /* --- SPLASH SCREEN --- */
+        /* --- SPLASH SCREEN / LOGO ANIMATION --- */
         #splash-screen {
-            position: fixed; inset: 0; background: #000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 9999; transition: opacity 0.8s ease, visibility 0.8s;
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
 
         .logo-box {
-            position: relative; font-size: 42px; font-weight: 800; color: var(--accent); letter-spacing: -1px;
+            position: relative;
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -1px;
             animation: logoScale 1.5s ease-in-out infinite alternate;
         }
 
         .logo-box::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-            width: 50px; height: 4px; background: var(--accent); border-radius: 10px;
-            box-shadow: 0 0 20px var(--accent); animation: lineExpand 1.5s ease-in-out infinite alternate;
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--accent);
+            animation: lineExpand 1.5s ease-in-out infinite alternate;
         }
 
-        @keyframes logoScale { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.1); opacity: 1; } }
-        @keyframes lineExpand { from { width: 20px; opacity: 0.3; } to { width: 80px; opacity: 1; } }
+        @keyframes logoScale {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
 
-        .loader-dots { margin-top: 30px; display: flex; gap: 8px; }
-        .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: dotPulse 1.2s infinite ease-in-out; }
+        @keyframes lineExpand {
+            from { width: 20px; opacity: 0.3; }
+            to { width: 80px; opacity: 1; }
+        }
+
+        .loader-dots {
+            margin-top: 30px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: dotPulse 1.2s infinite ease-in-out;
+        }
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.5); opacity: 1; } }
 
-        /* --- UI COMPONENTS --- */
-        .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; z-index: 100; }
-        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
-        .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
-        
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
+
+        /* --- BRANDING --- */
         .brand-container { margin-bottom: 40px; }
         .brand-name { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
         .brand-sub { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 800; color: var(--fade-white); opacity: 0.7; margin-top: 4px; }
+        .mobile-logo { font-weight: 800; letter-spacing: 1px; color: var(--accent); }
+
+        /* --- NAVIGATION --- */
+        .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; z-index: 100; }
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
+        .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
 
         .nav-btn { padding: 14px 20px; border-radius: 14px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 12px; margin-bottom: 6px; border: 1px solid transparent; }
         .nav-btn.active { color: #fff; background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.2); }
+        
+        .ver-area { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
+        .side-profile-info { margin-bottom: 15px; }
+        .side-user { font-size: 15px; font-weight: 800; color: var(--accent); display: block; }
+        .side-comp { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
 
+        /* --- MAIN CONTENT --- */
         .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #000 60%); overflow: hidden; }
         .tab-panel { display: none; padding: 25px; height: 100%; max-width: 1000px; margin: 0 auto; width: 100%; }
         .tab-panel.active { display: flex; flex-direction: column; }
-
+        
+        .header { padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+        .header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
         .master-clock { font-size: clamp(40px, 10vw, 64px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -3px; color: #fff; text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
 
-        /* --- TASK CARDS & GLOW --- */
-        .attendance-card { background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        /* --- CARDS & TASKS --- */
+        .attendance-card { background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-shrink: 0; }
+        .punch-btn { padding: 12px 24px; border-radius: 14px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-in { background: var(--success); color: #000; }
+        .btn-out { background: var(--danger); color: #fff; }
+
         .task-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; overflow: hidden; z-index: 1; }
-        
         .running-glow { border: none; }
         .running-glow::before {
             content: ''; position: absolute; height: 1000px; width: 1000px;
@@ -83,18 +136,50 @@
         .running-glow::after { content: ''; position: absolute; inset: 2px; background: var(--card); border-radius: 22px; z-index: -1; }
         @keyframes spinSmooth { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .play-btn { width: 54px; height: 54px; border-radius: 16px; border: 1px solid var(--border); background: #111; color: white; cursor: pointer; font-size: 20px; }
-        .play-btn.active { background: var(--accent); border-color: var(--accent); }
+        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 4px 10px; border-radius: 8px; text-transform: uppercase; margin-top: 8px; display: inline-block; letter-spacing: 0.5px; }
+        .play-btn { width: 54px; height: 54px; border-radius: 16px; border: 1px solid var(--border); background: #111; color: white; cursor: pointer; font-size: 20px; transition: 0.3s; }
+        .play-btn.active { background: var(--accent); border-color: var(--accent); transform: scale(0.9); }
+
+        /* --- LOGS UI --- */
+        .history-grid-layout { display: grid; grid-template-columns: 1fr; gap: 30px; flex: 1; overflow: hidden; }
+        .calendar-glass { background: var(--glass); border: 1px solid var(--border); padding: 24px; border-radius: 28px; backdrop-filter: blur(10px); height: fit-content; align-self: flex-start; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; }
+        .cal-day { aspect-ratio: 1; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; cursor: pointer; color: var(--text-dim); transition: 0.2s; border: 1px solid transparent; }
+        .cal-day.has-data { color: var(--accent); background: rgba(139, 92, 246, 0.05); }
+        .cal-day.selected { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .activity-section { overflow-y: auto; padding-right: 10px; }
+        .log-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; transition: 0.3s; position: relative; overflow: hidden; }
+        .log-card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent); opacity: 0.5; }
+        .session-row { font-size: 12px; color: var(--text-dim); margin-top: 6px; padding: 8px 12px; background: rgba(255, 255, 255, 0.02); border-radius: 10px; display: flex; justify-content: space-between; }
+        
+        .att-detail-card { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(0,0,0,0) 100%); border: 1px solid rgba(139, 92, 246, 0.2); padding: 20px; border-radius: 24px; display: flex; justify-content: space-around; text-align: center; }
+        .att-label { font-size: 10px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
+        .att-value { font-size: 18px; font-weight: 700; font-family: monospace; }
+
+        /* --- SETTINGS --- */
+        .settings-container { display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+        .settings-section-label { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; margin-left: 5px; }
+        .settings-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; }
+        .settings-row { display: flex; align-items: center; padding: 18px 20px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid var(--border); }
+        .settings-row:last-child { border-bottom: none; }
+        .settings-icon-box { width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 15px; border: 1px solid var(--border); }
+        .settings-info { flex: 1; }
+        .settings-title { font-size: 15px; font-weight: 700; color: #fff; }
+        .settings-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
 
         /* --- MODALS --- */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
         .modal-box { background: #0a0a0a; width: 100%; max-width: 420px; padding: 35px; border-radius: 32px; border: 1px solid var(--border); }
-        .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 18px; margin-bottom: 18px; outline: none; }
-        
-        .fab { position: fixed; bottom: 100px; right: 25px; width: 68px; height: 68px; background: #fff; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #000; cursor: pointer; z-index: 999; }
+        .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 18px; margin-bottom: 18px; outline: none; font-size: 15px; }
+        .btn-prime { width:100%; background:var(--accent); color:white; border:none; padding:18px; border-radius:18px; font-weight:800; cursor:pointer; }
+        .btn-close { width: 100%; background: transparent; color: var(--text-dim); padding: 12px; margin-top: 10px; border: none; cursor: pointer; font-weight: 600; }
+        .fab { position: fixed; bottom: 100px; right: 25px; width: 68px; height: 68px; background: #fff; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #000; cursor: pointer; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
-        @media (min-width: 769px) { body { flex-direction: row; } }
+        @media (min-width: 769px) { body { flex-direction: row; } .history-grid-layout { grid-template-columns: 400px 1fr; } .mobile-nav, .mobile-header { display: none; } }
+        @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } .history-grid-layout { overflow-y: auto; display: block; } .calendar-glass { margin-bottom: 20px; width: 100%; } }
+
+        @media print { .no-print { display: none !important; } body { background: white; color: black; } }
     </style>
 </head>
 <body>
@@ -108,7 +193,7 @@
         </div>
     </div>
 
-    <header class="mobile-header"><span style="font-weight:800; color:var(--accent);">SOFTLOG</span></header>
+    <header class="mobile-header"><span class="mobile-logo">SOFTLOG</span></header>
 
     <aside class="sidebar">
         <div class="brand-container">
@@ -121,104 +206,279 @@
             <div class="nav-btn" id="d-settings" onclick="switchTab('settings')">⚙️ Settings</div>
         </nav>
         <div class="ver-area">
-            <span class="side-user" id="side-user-name">Surabhi</span><br>
-            <span class="side-comp" style="font-size:11px; color:var(--text-dim);">SOFTLOG Inc.</span>
+            <div class="side-profile-info">
+                <span class="side-user" id="side-user-name">Loading...</span>
+                <span class="side-comp" id="side-comp-name">SOFTLOG Inc.</span>
+            </div>
+            <div style="color:var(--fade-white); font-weight:800; font-size:11px; letter-spacing:1px; opacity:0.6;">VERSION 1.0</div>
         </div>
     </aside>
+
+    <nav class="mobile-nav">
+        <div class="nav-btn active" id="m-dashboard" onclick="switchTab('dashboard')">💼 Dash</div>
+        <div class="nav-btn" id="m-history" onclick="switchTab('history')">📅 Logs</div>
+        <div class="nav-btn" id="m-settings" onclick="switchTab('settings')">⚙️ Sett</div>
+    </nav>
 
     <main class="main-content">
         <div id="dashboard" class="tab-panel active">
             <div class="attendance-card">
                 <div>
-                    <p style="font-size: 10px; color: var(--text-dim); font-weight: 800;">DAILY STATUS</p>
-                    <div id="punch-status" style="font-size: 14px; font-weight: 700;">Ready</div>
+                    <p style="font-size: 10px; color: var(--text-dim); font-weight: 800; letter-spacing: 1px;">DAILY STATUS</p>
+                    <div id="punch-status" style="font-size: 14px; font-weight: 700; color: #fff; margin-top: 4px;">Ready</div>
                 </div>
-                <button id="punch-btn" class="punch-btn btn-in" style="padding:10px 20px; border-radius:12px; border:none; background:var(--success); font-weight:800;" onclick="handlePunch()">Punch In</button>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div id="punch-time-display" style="font-family:monospace; font-size:16px; color:var(--accent); font-weight:800;">--:--</div>
+                    <button id="punch-btn" class="punch-btn btn-in" onclick="handlePunch()">Punch In</button>
+                </div>
             </div>
             <div class="header">
-                <p style="font-size: 11px; color: var(--text-dim); font-weight: 800;">Total Tracked Today</p>
+                <p style="font-size: 11px; color: var(--text-dim); font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Total Hours Tracked Today</p>
                 <div class="master-clock" id="master-clock">00:00:00</div>
             </div>
-            <div id="task-list"></div>
+            <div id="task-list" style="overflow-y:auto; flex:1;"></div>
         </div>
-        
-        <div id="history" class="tab-panel"><h1>Activity Logs</h1></div>
-        <div id="settings" class="tab-panel"><h1>Settings</h1></div>
+
+        <div id="history" class="tab-panel">
+            <div class="header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-shrink: 0;">
+                <div><h1>Activity Logs</h1></div>
+                <button class="punch-btn" style="background:var(--accent); color:white; font-size:11px;" onclick="generateReport()">Monthly Report</button>
+            </div>
+            <div class="history-grid-layout">
+                <div class="calendar-glass">
+                    <div style="display:flex; gap:12px; margin-bottom:20px;">
+                        <select id="sel-m" class="modal-select" style="margin:0; padding:10px;" onchange="renderHistory()"></select>
+                        <select id="sel-y" class="modal-select" style="margin:0; padding:10px;" onchange="renderHistory()"></select>
+                    </div>
+                    <div class="cal-grid" id="cal-grid"></div>
+                </div>
+                <div class="activity-section">
+                    <h4 id="selected-date-label" style="font-size:12px; color:var(--accent); margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Select Date</h4>
+                    <div id="attendance-detail" style="margin-bottom: 20px;"></div>
+                    <div id="hist-detail" style="display:flex; flex-direction:column; gap:12px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings" class="tab-panel">
+            <div class="header"><h1>Settings</h1></div>
+            <div class="settings-container">
+                <div>
+                    <p class="settings-section-label">Account</p>
+                    <div class="settings-card">
+                        <div class="settings-row" onclick="openModal('company-modal')">
+                            <div class="settings-icon-box">👤</div>
+                            <div class="settings-info"><p class="settings-title">Profile Identity</p><p class="settings-desc">Name, Company, Designation</p></div>
+                        </div>
+                        <div class="settings-row" onclick="openModal('pass-modal')">
+                            <div class="settings-icon-box">🔐</div>
+                            <div class="settings-info"><p class="settings-title">Security</p><p class="settings-desc">Change admin password</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="settings-section-label">Danger Zone</p>
+                    <div class="settings-card" style="border-color: rgba(239, 68, 68, 0.2);">
+                        <div class="settings-row" onclick="openModal('auth-modal')">
+                            <div class="settings-icon-box" style="background:rgba(239,68,68,0.1); color:var(--danger);">🗑️</div>
+                            <div class="settings-info"><p class="settings-title" style="color:var(--danger);">Master Reset</p><p class="settings-desc">Wipe all local data</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <div class="fab" onclick="openModal('task-modal')">+</div>
+    <div class="fab" id="main-fab" onclick="openModal('task-modal')">+</div>
 
-    <div class="modal" id="task-modal">
-        <div class="modal-box">
-            <h2 style="margin-bottom:20px">New Task</h2>
-            <input type="text" id="task-input" class="modal-input" placeholder="Task Name">
-            <button onclick="saveTask()" style="width:100%; padding:15px; background:var(--accent); border:none; border-radius:12px; color:white; font-weight:800;">Create</button>
-            <button onclick="closeModal('task-modal')" style="width:100%; background:none; border:none; color:var(--text-dim); margin-top:10px;">Cancel</button>
-        </div>
-    </div>
+    <div class="modal" id="task-modal"><div class="modal-box"><h2>New Task</h2><br><input type="text" id="task-input" class="modal-input" placeholder="Task Name"><select id="category-input" class="modal-select"><option value="Training">Training</option><option value="Demo">Demo</option><option value="Troubleshooting">Troubleshooting</option></select><button onclick="saveTask()" class="btn-prime">Create Task</button><button onclick="closeModal('task-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="company-modal"><div class="modal-box"><h2>Profile</h2><br><input type="text" id="setup-comp" class="modal-input" placeholder="Company Name"><input type="text" id="setup-user" class="modal-input" placeholder="Your Name"><input type="text" id="setup-desig" class="modal-input" placeholder="Designation"><button onclick="saveCompanyProfile()" class="btn-prime">Save</button><button onclick="closeModal('company-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="pass-modal"><div class="modal-box"><h2>Admin Password</h2><br><input type="password" id="old-pass" class="modal-input" placeholder="Current Password"><input type="password" id="new-pass" class="modal-input" placeholder="New Password"><button onclick="updateAdminPassword()" class="btn-prime">Update Security</button><button onclick="closeModal('pass-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="auth-modal"><div class="modal-box"><h2>Verify Admin</h2><input type="password" id="auth-pass" class="modal-input" placeholder="Password"><button onclick="verifyAuth()" class="btn-prime" style="background:var(--danger);">Reset Data</button><button onclick="closeModal('auth-modal')" class="btn-close">Cancel</button></div></div>
+    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div class="no-print" style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print PDF</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
 
-    <script>
-        // Splash screen dismissal
-        window.addEventListener('load', () => {
+<script>
+    // --- SPLASH SCREEN LOGIC ---
+    window.addEventListener('load', () => {
+        const splash = document.getElementById('splash-screen');
+        setTimeout(() => {
+            splash.style.opacity = '0';
             setTimeout(() => {
-                const s = document.getElementById('splash-screen');
-                s.style.opacity = '0';
-                setTimeout(() => s.style.display = 'none', 800);
-            }, 2000);
-        });
+                splash.style.visibility = 'hidden';
+            }, 800); // Wait for fade transition
+        }, 2500); // Show splash for 2.5 seconds
+    });
 
-        let tasks = [], activeId = null, timer;
+    const SUPER_ADMIN_PASS = "spa@cad";
+    let adminPass = localStorage.getItem('s_admin_pass') || "123";
+    let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "SOFTLOG Inc.", name: "Surabhi", desig: "Developer" };
+    let tasks = JSON.parse(localStorage.getItem('s_tasks')) || [];
+    let logs = JSON.parse(localStorage.getItem('s_logs_v4')) || {};
+    let attendance = JSON.parse(localStorage.getItem('s_attendance')) || {};
+    let activeId = localStorage.getItem('s_activeId') ? parseInt(localStorage.getItem('s_activeId')) : null;
+    let timer, selectedDate = null;
 
-        function switchTab(t) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-            document.getElementById('d-'+t).classList.add('active');
+    const mS = document.getElementById('sel-m'), yS = document.getElementById('sel-y'), now = new Date();
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    months.forEach((m, i) => mS.innerHTML += `<option value="${i}" ${i==now.getMonth()?'selected':''}>${m}</option>`);
+    for(let y=2024; y<=2035; y++) yS.innerHTML += `<option value="${y}" ${y==now.getFullYear()?'selected':''}>${y}</option>`;
+
+    function formatTime(ts) { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+    
+    function format(s) {
+        const h = Math.floor(s/3600).toString().padStart(2,'0');
+        const m = Math.floor((s%3600)/60).toString().padStart(2,'0');
+        const sec = (s%60).toString().padStart(2,'0');
+        return `${h}:${m}:${sec}`;
+    }
+
+    function updateProfileUI() {
+        document.getElementById('side-user-name').innerText = companyProfile.name;
+        document.getElementById('side-comp-name').innerText = companyProfile.company;
+    }
+
+    function saveCompanyProfile() {
+        companyProfile = { company: document.getElementById('setup-comp').value, name: document.getElementById('setup-user').value, desig: document.getElementById('setup-desig').value };
+        localStorage.setItem('s_profile', JSON.stringify(companyProfile));
+        updateProfileUI(); closeModal('company-modal');
+    }
+
+    function handlePunch() {
+        const key = new Date().toISOString().split('T')[0];
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        if (!attendance[key]) attendance[key] = { in: null, out: null };
+        if (!attendance[key].in) attendance[key].in = time; else attendance[key].out = time;
+        localStorage.setItem('s_attendance', JSON.stringify(attendance));
+        updatePunchUI();
+    }
+
+    function updatePunchUI() {
+        const key = new Date().toISOString().split('T')[0], day = attendance[key];
+        const btn = document.getElementById('punch-btn'), status = document.getElementById('punch-status'), disp = document.getElementById('punch-time-display');
+        if (!day || !day.in) { 
+            btn.style.display = "block"; btn.innerText = "Punch In"; btn.className = "punch-btn btn-in"; status.innerText = "Ready"; disp.innerText = "--:--"; 
+        } else if (day.in && !day.out) { 
+            btn.style.display = "block"; btn.innerText = "Punch Out"; btn.className = "punch-btn btn-out"; status.innerText = "Shift Active"; disp.innerText = day.in; 
+        } else { 
+            btn.style.display = "none"; status.innerText = "Shift Done"; disp.innerText = `${day.in} - ${day.out}`; 
         }
+    }
 
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        function saveTask() {
-            const val = document.getElementById('task-input').value;
-            if(!val) return;
-            tasks.push({ id: Date.now(), name: val, category: 'General', time: 0 });
-            document.getElementById('task-input').value = '';
-            closeModal('task-modal');
-            renderDashboard();
-        }
-
-        function renderDashboard() {
-            const container = document.getElementById('task-list');
-            container.innerHTML = tasks.map(t => `
-                <div class="task-card ${activeId === t.id ? 'running-glow' : ''}">
-                    <div>
-                        <div style="font-weight:800;">${t.name}</div>
-                        <div style="font-size:12px; color:var(--text-dim); font-family:monospace;">00:00:00</div>
-                    </div>
-                    <button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggleTask(${t.id})">
-                        ${activeId === t.id ? '■' : '▶'}
-                    </button>
+    function renderDashboard() {
+        const list = document.getElementById('task-list'), key = new Date().toISOString().split('T')[0];
+        let total = 0;
+        list.innerHTML = tasks.map(t => {
+            let s = 0; if(logs[key] && logs[key][t.id]) logs[key][t.id].forEach(sess => s += Math.floor(((sess.end || Date.now()) - sess.start)/1000));
+            total += s; const isRunning = (activeId === t.id);
+            return `<div class="task-card ${isRunning ? 'running-glow' : ''}">
+                <div class="task-content">
+                    <div style="font-weight:800; font-size:18px;">${t.name}</div>
+                    <div class="category-tag">${t.category}</div>
+                    <div style="color:var(--text-dim); font-family:monospace; margin-top:10px; font-weight:700;">${format(s)}</div>
                 </div>
-            `).join('');
-        }
+                <button class="play-btn ${isRunning ? 'active' : ''}" onclick="toggle(${t.id})">${isRunning ? '■' : '▶'}</button>
+            </div>`;
+        }).join('');
+        document.getElementById('master-clock').innerText = format(total);
+        updatePunchUI(); updateProfileUI();
+    }
 
-        function toggleTask(id) {
-            activeId = (activeId === id) ? null : id;
-            renderDashboard();
-        }
-
-        function handlePunch() {
-            const btn = document.getElementById('punch-btn');
-            if(btn.innerText === "Punch In") {
-                btn.innerText = "Punch Out";
-                btn.style.background = "var(--danger)";
-                document.getElementById('punch-status').innerText = "Shift Active";
-            } else {
-                btn.style.display = "none";
-                document.getElementById('punch-status').innerText = "Shift Ended";
+    function toggle(id) {
+        const key = new Date().toISOString().split('T')[0];
+        if(!logs[key]) logs[key] = {}; if(!logs[key][id]) logs[key][id] = [];
+        if(activeId === id) {
+            clearInterval(timer); timer = null;
+            logs[key][id][logs[key][id].length - 1].end = Date.now();
+            activeId = null; localStorage.removeItem('s_activeId');
+        } else {
+            if(activeId && logs[key][activeId]) { 
+                let last = logs[key][activeId][logs[key][activeId].length-1]; 
+                if(last && !last.end) last.end = Date.now(); 
             }
+            activeId = id; localStorage.setItem('s_activeId', id);
+            logs[key][id].push({ start: Date.now(), end: null });
+            if(!timer) timer = setInterval(renderDashboard, 1000);
         }
-    </script>
+        localStorage.setItem('s_logs_v4', JSON.stringify(logs)); renderDashboard();
+    }
+
+    function renderHistory() {
+        const grid = document.getElementById('cal-grid'); grid.innerHTML = '';
+        const m = parseInt(mS.value), y = parseInt(yS.value);
+        const first = new Date(y, m, 1).getDay(), total = new Date(y, m+1, 0).getDate();
+        for(let i=0; i<first; i++) grid.appendChild(Object.assign(document.createElement('div'), {className: 'cal-day empty'}));
+        for(let i=1; i<=total; i++) {
+            const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
+            const div = document.createElement('div');
+            div.className = `cal-day ${(logs[dStr] || attendance[dStr])?'has-data':''} ${selectedDate===dStr?'selected':''}`;
+            div.innerText = i; div.onclick = () => { selectedDate = dStr; renderHistory(); showHist(dStr); };
+            grid.appendChild(div);
+        }
+    }
+
+    function showHist(date) {
+        const label = document.getElementById('selected-date-label');
+        const attArea = document.getElementById('attendance-detail');
+        const workArea = document.getElementById('hist-detail');
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        label.innerText = new Date(date).toLocaleDateString(undefined, options);
+        const att = attendance[date];
+        attArea.innerHTML = att ? `<div class="att-detail-card"><div><div class="att-label">Punch In</div><div class="att-value">${att.in || '--:--'}</div></div><div style="width: 1px; background: var(--border); height: 30px; align-self: center;"></div><div><div class="att-label">Punch Out</div><div class="att-value">${att.out || '--:--'}</div></div></div>` : `<div style="text-align:center; color:var(--text-dim); font-size:12px;">No Attendance</div>`;
+        const dayData = logs[date];
+        if(!dayData || Object.keys(dayData).length === 0) { workArea.innerHTML = `<div style="text-align:center; margin-top:40px; color:var(--text-dim);"><p>No work logs found</p></div>`; return; }
+        workArea.innerHTML = Object.keys(dayData).map(tid => {
+            const t = tasks.find(x => x.id == tid);
+            const sess = dayData[tid].map(s => `<div class="session-row"><span>Session</span><span style="color:white; font-weight:600;">${formatTime(s.start)} - ${s.end?formatTime(s.end):'Active'}</span></div>`).join('');
+            const tot = dayData[tid].reduce((acc, s) => acc + Math.floor(((s.end||Date.now())-s.start)/1000), 0);
+            return `<div class="log-card"><div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;"><div><div style="font-weight:800; font-size:16px; color:#fff;">${t?t.name:'Deleted'}</div><div class="category-tag">${t?t.category:'General'}</div></div><div style="text-align:right;"><div style="font-family:monospace; font-weight:800; color:var(--accent); font-size:16px;">${format(tot)}</div><div style="font-size:9px; color:var(--text-dim); font-weight:700;">TOTAL</div></div></div>${sess}</div>`;
+        }).join('');
+    }
+
+    function generateReport() {
+        const m = parseInt(mS.value), y = parseInt(yS.value), total = new Date(y, m+1, 0).getDate();
+        let html = `<div style="font-family:sans-serif; padding:40px;"><h1 style="text-align:center; margin-bottom:5px;">${companyProfile.company}</h1><p style="text-align:center; color:#555; margin-bottom:25px;">${companyProfile.name} | ${companyProfile.desig}<br>${months[m]} ${y}</p><table style="width:100%; border-collapse:collapse; margin-top:20px;"><thead><tr style="background:#f4f4f4;"><th style="border:1px solid #ddd; padding:12px;">Date</th><th style="border:1px solid #ddd; padding:12px;">Punch In</th><th style="border:1px solid #ddd; padding:12px;">Punch Out</th><th style="border:1px solid #ddd; padding:12px;">Work Hours</th></tr></thead><tbody>`;
+        let g = 0; for(let i=1; i<=total; i++) {
+            const dStr = `${y}-${(m+1).toString().padStart(2,'0')}-${i.toString().padStart(2,'0')}`;
+            const att = attendance[dStr] || {in:'-', out:'-'};
+            let dS = 0; if(logs[dStr]) Object.values(logs[dStr]).forEach(ts => ts.forEach(s => dS += Math.floor(((s.end||s.start)-s.start)/1000)));
+            g += dS; html += `<tr><td style="border:1px solid #ddd; padding:10px; text-align:center;">${i}/${m+1}</td><td style="border:1px solid #ddd; padding:10px; text-align:center;">${att.in}</td><td style="border:1px solid #ddd; padding:10px; text-align:center;">${att.out}</td><td style="border:1px solid #ddd; padding:10px; text-align:center;">${format(dS)}</td></tr>`;
+        }
+        html += `</tbody></table><div style="text-align:right; margin-top:30px; font-size:20px;"><strong>Grand Total: ${format(g)}</strong></div></div>`;
+        document.getElementById('report-area').innerHTML = html; openModal('report-modal');
+    }
+
+    function switchTab(t) {
+        document.querySelectorAll('.tab-panel, .nav-btn').forEach(x => x.classList.remove('active'));
+        document.getElementById(t).classList.add('active');
+        const mBtn = document.getElementById('m-' + t), dBtn = document.getElementById('d-' + t);
+        if(mBtn) mBtn.classList.add('active'); if(dBtn) dBtn.classList.add('active');
+        if(t === 'history') { 
+            if(!selectedDate) selectedDate = new Date().toISOString().split('T')[0]; 
+            renderHistory(); showHist(selectedDate); 
+        }
+        document.getElementById('main-fab').style.display = (t === 'settings') ? 'none' : 'flex';
+    }
+
+    function openModal(id) { 
+        document.getElementById(id).style.display = 'flex'; 
+        if(id==='company-modal') {
+            document.getElementById('setup-comp').value = companyProfile.company;
+            document.getElementById('setup-user').value = companyProfile.name;
+            document.getElementById('setup-desig').value = companyProfile.desig;
+        }
+    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function verifyAuth() { const p = document.getElementById('auth-pass').value; if(p === adminPass || p === SUPER_ADMIN_PASS) { localStorage.clear(); location.reload(); } else alert("Failed"); }
+    function updateAdminPassword() { if(document.getElementById('old-pass').value === adminPass) { adminPass = document.getElementById('new-pass').value; localStorage.setItem('s_admin_pass', adminPass); alert("Updated"); closeModal('pass-modal'); } }
+    
+    function saveTask() { 
+        const n = document.getElementById('task-input').value, c = document.getElementById('category-input').value; 
+        if(n) { tasks.push({id: Date.now(), name: n, category: c}); localStorage.setItem('s_tasks', JSON.stringify(tasks)); closeModal('task-modal'); document.getElementById('task-input').value = ''; renderDashboard(); }
+    }
+
+    if(activeId) timer = setInterval(renderDashboard, 1000);
+    renderDashboard();
+</script>
 </body>
 </html>
