@@ -6,7 +6,6 @@
     <title>SOFTLOG v1.0 | Developed By Surabhi</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ALL YOUR ORIGINAL STYLES REMAIN UNTOUCHED */
         :root {
             --bg: #000000;
             --nav-bg: #080808;
@@ -25,6 +24,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
+        /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: fixed; inset: 0; background: #000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -51,53 +51,66 @@
         .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.5); opacity: 1; } }
 
-        /* Added one style for the Google Button to match your theme */
-        .google-btn {
-            display: none; margin-top: 40px; background: white; color: black; 
-            border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800;
-            cursor: pointer; align-items: center; gap: 10px;
-        }
-
-        /* REST OF YOUR UI STYLES */
+        /* --- UI COMPONENTS --- */
+        .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; z-index: 100; }
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
+        .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
+        
         .brand-container { margin-bottom: 40px; }
         .brand-name { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
         .brand-sub { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 800; color: var(--fade-white); opacity: 0.7; margin-top: 4px; }
-        .sidebar { width: 260px; background: var(--nav-bg); border-right: 1px solid var(--border); padding: 40px 20px; display: flex; flex-direction: column; z-index: 100; }
+
+        .nav-btn { padding: 14px 20px; border-radius: 14px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 12px; margin-bottom: 6px; border: 1px solid transparent; }
+        .nav-btn.active { color: #fff; background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.2); }
+
         .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #000 60%); overflow: hidden; }
         .tab-panel { display: none; padding: 25px; height: 100%; max-width: 1000px; margin: 0 auto; width: 100%; }
         .tab-panel.active { display: flex; flex-direction: column; }
+
         .master-clock { font-size: clamp(40px, 10vw, 64px); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -3px; color: #fff; text-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
-        .attendance-card { background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-shrink: 0; }
-        .punch-btn { padding: 12px 24px; border-radius: 14px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        .btn-in { background: var(--success); color: #000; }
-        .btn-out { background: var(--danger); color: #fff; }
+
+        /* --- TASK CARDS & GLOW --- */
+        .attendance-card { background: var(--glass); border: 1px solid var(--border); padding: 20px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         .task-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; overflow: hidden; z-index: 1; }
+        
         .running-glow { border: none; }
-        .running-glow::before { content: ''; position: absolute; height: 1000px; width: 1000px; background-image: conic-gradient(transparent, var(--accent), transparent 30%); left: 50%; top: 50%; transform: translate(-50%, -50%); animation: spinSmooth 3s linear infinite; z-index: -2; }
+        .running-glow::before {
+            content: ''; position: absolute; height: 1000px; width: 1000px;
+            background-image: conic-gradient(transparent, var(--accent), transparent 30%);
+            left: 50%; top: 50%; transform: translate(-50%, -50%); 
+            animation: spinSmooth 3s linear infinite; z-index: -2;
+        }
         .running-glow::after { content: ''; position: absolute; inset: 2px; background: var(--card); border-radius: 22px; z-index: -1; }
         @keyframes spinSmooth { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
         .play-btn { width: 54px; height: 54px; border-radius: 16px; border: 1px solid var(--border); background: #111; color: white; cursor: pointer; font-size: 20px; }
         .play-btn.active { background: var(--accent); border-color: var(--accent); }
+
+        /* --- MODALS --- */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
+        .modal-box { background: #0a0a0a; width: 100%; max-width: 420px; padding: 35px; border-radius: 32px; border: 1px solid var(--border); }
+        .modal-input, .modal-select { width: 100%; background: #141414; border: 1px solid #222; color: white; padding: 18px; border-radius: 18px; margin-bottom: 18px; outline: none; }
+        
         .fab { position: fixed; bottom: 100px; right: 25px; width: 68px; height: 68px; background: #fff; border-radius: 22px; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #000; cursor: pointer; z-index: 999; }
-        @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } }
+
+        @media (max-width: 768px) { .sidebar { display: none; } .mobile-nav { display: flex; } .mobile-header { display: block; } }
+        @media (min-width: 769px) { body { flex-direction: row; } }
     </style>
 </head>
 <body>
 
     <div id="splash-screen">
         <div class="logo-box">SOFTLOG</div>
-        <div class="loader-dots" id="splash-loader">
+        <div class="loader-dots">
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
         </div>
-        <button id="login-btn" class="google-btn">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-            Sign in with Google
-        </button>
     </div>
 
-    <aside class="sidebar" id="main-sidebar" style="display:none;">
+    <header class="mobile-header"><span style="font-weight:800; color:var(--accent);">SOFTLOG</span></header>
+
+    <aside class="sidebar">
         <div class="brand-container">
             <div class="brand-name">SOFTLOG</div>
             <div class="brand-sub">By Surabhi</div>
@@ -108,85 +121,104 @@
             <div class="nav-btn" id="d-settings" onclick="switchTab('settings')">⚙️ Settings</div>
         </nav>
         <div class="ver-area">
-            <div class="side-profile-info">
-                <span class="side-user" id="side-user-name">User</span>
-                <span class="side-comp" onclick="authLogout()" style="cursor:pointer; color:var(--danger);">Sign Out</span>
-            </div>
+            <span class="side-user" id="side-user-name">Surabhi</span><br>
+            <span class="side-comp" style="font-size:11px; color:var(--text-dim);">SOFTLOG Inc.</span>
         </div>
     </aside>
 
-    <main class="main-content" id="main-app" style="display:none;">
+    <main class="main-content">
         <div id="dashboard" class="tab-panel active">
             <div class="attendance-card">
                 <div>
                     <p style="font-size: 10px; color: var(--text-dim); font-weight: 800;">DAILY STATUS</p>
                     <div id="punch-status" style="font-size: 14px; font-weight: 700;">Ready</div>
                 </div>
-                <div style="display: flex; gap: 15px; align-items: center;">
-                    <div id="punch-time-display" style="font-family:monospace; font-size:16px; color:var(--accent); font-weight:800;">--:--</div>
-                    <button id="punch-btn" class="punch-btn btn-in" onclick="handlePunch()">Punch In</button>
-                </div>
+                <button id="punch-btn" class="punch-btn btn-in" style="padding:10px 20px; border-radius:12px; border:none; background:var(--success); font-weight:800;" onclick="handlePunch()">Punch In</button>
             </div>
             <div class="header">
-                <p style="font-size: 11px; color: var(--text-dim); font-weight: 800;">Total Hours Tracked Today</p>
+                <p style="font-size: 11px; color: var(--text-dim); font-weight: 800;">Total Tracked Today</p>
                 <div class="master-clock" id="master-clock">00:00:00</div>
             </div>
-            <div id="task-list" style="overflow-y:auto; flex:1;"></div>
+            <div id="task-list"></div>
         </div>
+        
+        <div id="history" class="tab-panel"><h1>Activity Logs</h1></div>
+        <div id="settings" class="tab-panel"><h1>Settings</h1></div>
     </main>
 
-    <div class="fab" id="main-fab" style="display:none;" onclick="openModal('task-modal')">+</div>
+    <div class="fab" onclick="openModal('task-modal')">+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAd4bj-hn41000iOWRkHNqbvaQHe29d1RQ",
-            authDomain: "softlog-login.firebaseapp.com",
-            projectId: "softlog-login",
-            storageBucket: "softlog-login.firebasestorage.app",
-            messagingSenderId: "48002159968",
-            appId: "1:48002159968:web:fd0f79dd6bf0faae6d7a05"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        // Login Function
-        document.getElementById('login-btn').onclick = () => signInWithPopup(auth, provider);
-        
-        // Logout Function
-        window.authLogout = () => signOut(auth).then(() => location.reload());
-
-        // Auth Observer
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                document.getElementById('side-user-name').innerText = user.displayName;
-                document.getElementById('splash-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('splash-screen').style.display = 'none';
-                    document.getElementById('main-sidebar').style.display = 'flex';
-                    document.getElementById('main-app').style.display = 'flex';
-                    document.getElementById('main-fab').style.display = 'flex';
-                }, 800);
-            } else {
-                // User is signed out
-                document.getElementById('splash-loader').style.display = 'none';
-                document.getElementById('login-btn').style.display = 'flex';
-            }
-        });
-    </script>
+    <div class="modal" id="task-modal">
+        <div class="modal-box">
+            <h2 style="margin-bottom:20px">New Task</h2>
+            <input type="text" id="task-input" class="modal-input" placeholder="Task Name">
+            <button onclick="saveTask()" style="width:100%; padding:15px; background:var(--accent); border:none; border-radius:12px; color:white; font-weight:800;">Create</button>
+            <button onclick="closeModal('task-modal')" style="width:100%; background:none; border:none; color:var(--text-dim); margin-top:10px;">Cancel</button>
+        </div>
+    </div>
 
     <script>
-        /* ALL YOUR ORIGINAL V1.0 FUNCTIONS (toggle, render, saveTask, etc.) GO HERE */
-        /* I HAVE NOT CHANGED A SINGLE LINE OF YOUR LOGIC */
-        let tasks = [], activeId = null; 
-        function switchTab(t) { /* your code */ }
-        function handlePunch() { /* your code */ }
+        // Splash screen dismissal
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const s = document.getElementById('splash-screen');
+                s.style.opacity = '0';
+                setTimeout(() => s.style.display = 'none', 800);
+            }, 2000);
+        });
+
+        let tasks = [], activeId = null, timer;
+
+        function switchTab(t) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
+            document.getElementById('d-'+t).classList.add('active');
+        }
+
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        function saveTask() {
+            const val = document.getElementById('task-input').value;
+            if(!val) return;
+            tasks.push({ id: Date.now(), name: val, category: 'General', time: 0 });
+            document.getElementById('task-input').value = '';
+            closeModal('task-modal');
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            const container = document.getElementById('task-list');
+            container.innerHTML = tasks.map(t => `
+                <div class="task-card ${activeId === t.id ? 'running-glow' : ''}">
+                    <div>
+                        <div style="font-weight:800;">${t.name}</div>
+                        <div style="font-size:12px; color:var(--text-dim); font-family:monospace;">00:00:00</div>
+                    </div>
+                    <button class="play-btn ${activeId === t.id ? 'active' : ''}" onclick="toggleTask(${t.id})">
+                        ${activeId === t.id ? '■' : '▶'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleTask(id) {
+            activeId = (activeId === id) ? null : id;
+            renderDashboard();
+        }
+
+        function handlePunch() {
+            const btn = document.getElementById('punch-btn');
+            if(btn.innerText === "Punch In") {
+                btn.innerText = "Punch Out";
+                btn.style.background = "var(--danger)";
+                document.getElementById('punch-status').innerText = "Shift Active";
+            } else {
+                btn.style.display = "none";
+                document.getElementById('punch-status').innerText = "Shift Ended";
+            }
+        }
     </script>
 </body>
 </html>
