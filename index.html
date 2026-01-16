@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SOFTLOG v3.4 | Developed By Surabhi</title>
+    <title>SOFTLOG | By Surabhi</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #000000;
             --nav-bg: #080808;
             --card: #0d0d0d;
-            --accent: #8b5cf6;
+            --accent: #8b5cf6; /* Default Purple */
             --border: rgba(255, 255, 255, 0.1);
             --text: #ffffff;
             --text-dim: #71717a;
@@ -47,6 +47,30 @@
         .dot:nth-child(2) { animation-delay: 0.2s; } .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.5); opacity: 1; } }
 
+        /* --- LOGIN SCREEN --- */
+        #login-screen {
+            position: fixed; inset: 0; background: #000000; z-index: 5000;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            padding: 30px; opacity: 0; transition: opacity 0.5s ease;
+        }
+        #login-screen.visible { opacity: 1; }
+        .login-container { width: 100%; max-width: 400px; text-align: center; }
+        .login-title { font-size: 32px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .login-sub { color: var(--text-dim); margin-bottom: 40px; font-size: 14px; }
+        .login-input { 
+            width: 100%; background: #111; border: 1px solid var(--border); color: white; 
+            padding: 20px; border-radius: 18px; margin-bottom: 15px; outline: none; 
+            font-size: 16px; transition: 0.3s; 
+        }
+        .login-input:focus { border-color: var(--accent); background: #161616; }
+        .btn-login { 
+            width: 100%; background: var(--accent); color: white; border: none; 
+            padding: 20px; border-radius: 18px; font-weight: 800; cursor: pointer; 
+            font-size: 16px; margin-top: 10px; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); 
+            transition: 0.3s;
+        }
+        .btn-login:active { transform: scale(0.98); }
+
         /* --- BRANDING --- */
         .brand-container { margin-bottom: 40px; }
         .brand-name { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
@@ -58,31 +82,25 @@
         .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 12px 10px calc(12px + var(--safe-bottom)); justify-content: space-around; z-index: 1000; }
         .mobile-header { display: none; padding: 15px 20px; border-bottom: 1px solid var(--border); background: var(--bg); text-align: center; }
         .nav-btn { padding: 14px 20px; border-radius: 14px; cursor: pointer; transition: 0.3s; font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 12px; margin-bottom: 6px; border: 1px solid transparent; }
-        .nav-btn.active { color: #fff; background: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.2); }
+        .nav-btn.active { color: #fff; background: rgba(255, 255, 255, 0.05); border-color: var(--accent); box-shadow: 0 0 10px -5px var(--accent); }
         .ver-area { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
         .side-profile-info { margin-bottom: 15px; }
         .side-user { font-size: 15px; font-weight: 800; color: var(--accent); display: block; }
         .side-comp { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* --- MAIN CONTENT --- */
-        .main-content { flex: 1; display: flex; flex-direction: column; background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #000 60%); overflow: hidden; }
+        /* --- MAIN CONTENT (PITCH BLACK) --- */
+        .main-content { flex: 1; display: flex; flex-direction: column; background: #000000; overflow: hidden; }
         .tab-panel { display: none; padding: 25px; height: 100%; max-width: 1000px; margin: 0 auto; width: 100%; }
         .tab-panel.active { display: flex; flex-direction: column; }
         
         .header { padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
         .header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
         
-        /* --- CLEAN CLOCK --- */
+        /* --- CLOCK --- */
         .master-clock { 
-            font-size: clamp(48px, 12vw, 86px); 
-            font-weight: 800; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-variant-numeric: tabular-nums; 
-            letter-spacing: -3px; 
-            color: #ffffff;
-            margin-top: 5px;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5), 0 0 60px rgba(139, 92, 246, 0.25);
-            line-height: 1;
+            font-size: clamp(50px, 12vw, 86px); font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif;
+            font-variant-numeric: tabular-nums; letter-spacing: -3px; margin-top: 5px; line-height: 1;
+            color: #ffffff; text-shadow: none; filter: none;
         }
 
         /* --- CARDS & TASKS --- */
@@ -91,7 +109,7 @@
         .btn-in { background: var(--success); color: #000; }
         .btn-out { background: var(--danger); color: #fff; }
 
-        .task-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; overflow: hidden; z-index: 1; }
+        .task-card { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; overflow: hidden; z-index: 1; transition: 0.3s; }
         .running-glow { border: none; }
         .running-glow::before {
             content: ''; position: absolute; height: 1000px; width: 1000px;
@@ -102,7 +120,7 @@
         .running-glow::after { content: ''; position: absolute; inset: 2px; background: var(--card); border-radius: 22px; z-index: -1; }
         @keyframes spinSmooth { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(139, 92, 246, 0.1); padding: 4px 10px; border-radius: 8px; text-transform: uppercase; margin-top: 8px; display: inline-block; letter-spacing: 0.5px; }
+        .category-tag { font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(255, 255, 255, 0.05); padding: 4px 10px; border-radius: 8px; text-transform: uppercase; margin-top: 8px; display: inline-block; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.1); }
         .play-btn { width: 54px; height: 54px; border-radius: 16px; border: 1px solid var(--border); background: #111; color: white; cursor: pointer; font-size: 20px; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
         .play-btn.active { background: var(--accent); border-color: var(--accent); transform: scale(0.9); }
         .del-btn { width: 40px; height: 40px; border-radius: 14px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; font-size: 16px; transition: 0.3s; margin-right: 5px; }
@@ -113,10 +131,9 @@
         .calendar-glass { background: var(--glass); border: 1px solid var(--border); padding: 24px; border-radius: 28px; backdrop-filter: blur(10px); height: fit-content; align-self: flex-start; }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 15px; }
         .cal-day { aspect-ratio: 1; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; cursor: pointer; color: var(--text-dim); transition: 0.2s; border: 1px solid transparent; }
-        .cal-day.has-data { color: var(--accent); background: rgba(139, 92, 246, 0.05); }
+        .cal-day.has-data { color: var(--accent); background: rgba(255, 255, 255, 0.05); }
         .cal-day.selected { background: var(--accent); color: white; border-color: var(--accent); }
         
-        /* LEAVE STYLES */
         .cal-day.leave-full { border: 1px solid var(--danger) !important; background: rgba(239, 68, 68, 0.15) !important; color: var(--danger) !important; }
         .cal-day.leave-half { border: 1px solid var(--warning) !important; background: rgba(245, 158, 11, 0.15) !important; color: var(--warning) !important; }
 
@@ -125,7 +142,7 @@
         .log-card::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--accent); opacity: 0.5; }
         .session-row { font-size: 12px; color: var(--text-dim); margin-top: 6px; padding: 8px 12px; background: rgba(255, 255, 255, 0.02); border-radius: 10px; display: flex; justify-content: space-between; }
         
-        .att-detail-card { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(0,0,0,0) 100%); border: 1px solid rgba(139, 92, 246, 0.2); padding: 20px; border-radius: 24px; display: flex; justify-content: space-around; text-align: center; }
+        .att-detail-card { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%); border: 1px solid var(--border); padding: 20px; border-radius: 24px; display: flex; justify-content: space-around; text-align: center; }
         .att-label { font-size: 10px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
         .att-value { font-size: 18px; font-weight: 700; font-family: monospace; }
 
@@ -139,6 +156,10 @@
         .settings-info { flex: 1; }
         .settings-title { font-size: 15px; font-weight: 700; color: #fff; }
         .settings-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+        .color-swatch { width: 42px; height: 42px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.1); transition: 0.3s; position: relative; }
+        .color-swatch:hover { transform: scale(1.1); }
+        .color-swatch.active { border-color: #fff; transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
 
         /* --- MODALS --- */
         .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 3000; padding: 20px; }
@@ -162,6 +183,20 @@
         <div class="loader-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
 
+    <div id="login-screen">
+        <div class="login-container">
+            <div class="logo-box" style="font-size: 32px; margin-bottom: 20px;">SOFTLOG</div>
+            <h1 class="login-title">Registration</h1>
+            <p class="login-sub">Setup your workspace to get started</p>
+            
+            <input type="text" id="reg-comp" class="login-input" placeholder="Company Name">
+            <input type="text" id="reg-user" class="login-input" placeholder="Your Full Name">
+            <input type="text" id="reg-desig" class="login-input" placeholder="Designation">
+            
+            <button onclick="completeRegistration()" class="btn-login">Enter Workspace →</button>
+        </div>
+    </div>
+
     <header class="mobile-header"><span class="mobile-logo">SOFTLOG</span></header>
 
     <aside class="sidebar">
@@ -179,7 +214,7 @@
                 <span class="side-user" id="side-user-name">Loading...</span>
                 <span class="side-comp" id="side-comp-name">SOFTLOG Inc.</span>
             </div>
-            <div style="color:var(--fade-white); font-weight:800; font-size:11px; letter-spacing:1px; opacity:0.6;">VERSION 3.4</div>
+            <div style="color:var(--fade-white); font-weight:800; font-size:11px; letter-spacing:1px; opacity:0.6;">VERSION 1.1.5</div>
         </div>
     </aside>
 
@@ -251,6 +286,21 @@
                         </div>
                     </div>
                 </div>
+                
+                <div>
+                    <p class="settings-section-label">Appearance</p>
+                    <div class="settings-card" style="padding: 20px;">
+                        <p class="settings-title" style="margin-bottom:15px; font-size:13px;">Accent Theme</p>
+                        <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                            <div onclick="setTheme('#8b5cf6')" id="swatch-#8b5cf6" class="color-swatch" style="background:#8b5cf6"></div>
+                            <div onclick="setTheme('#ef4444')" id="swatch-#ef4444" class="color-swatch" style="background:#ef4444"></div>
+                            <div onclick="setTheme('#3b82f6')" id="swatch-#3b82f6" class="color-swatch" style="background:#3b82f6"></div>
+                            <div onclick="setTheme('#22c55e')" id="swatch-#22c55e" class="color-swatch" style="background:#22c55e"></div>
+                            <div onclick="setTheme('#eab308')" id="swatch-#eab308" class="color-swatch" style="background:#eab308"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div>
                     <p class="settings-section-label">Data Management</p>
                     <div class="settings-card">
@@ -348,6 +398,15 @@
         </div>
     </div>
 
+    <div class="modal" id="denied-modal">
+        <div class="modal-box" style="border: 1px solid var(--danger); text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 10px;">🚫</div>
+            <h2 style="color: var(--danger); margin-bottom: 10px;">Access Denied</h2>
+            <p style="color: var(--text-dim); margin-bottom: 20px;">You must <b>Punch In</b> before starting any tasks.</p>
+            <button onclick="closeModal('denied-modal')" class="btn-prime" style="background: var(--danger);">Understood</button>
+        </div>
+    </div>
+
     <div class="modal" id="auth-modal">
         <div class="modal-box">
             <h2 id="auth-title">Verify Admin</h2>
@@ -358,33 +417,82 @@
         </div>
     </div>
 
-    <div class="modal" id="report-modal"><div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;"><div id="report-area"></div><div class="no-print" style="margin-top:20px; display:flex; gap:10px;"><button onclick="window.print()" class="btn-prime">Print PDF</button><button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button></div></div></div>
+    <div class="modal" id="report-modal">
+        <div class="modal-box" style="max-width:95%; height:90vh; overflow-y:auto; background:white; color:black;">
+            <div id="report-area"></div>
+            <div class="no-print" style="margin-top:20px; display:flex; gap:10px;">
+                <button onclick="printReport()" class="btn-prime">Print PDF</button>
+                <button onclick="closeModal('report-modal')" class="btn-close" style="color:red;">Close</button>
+            </div>
+        </div>
+    </div>
 
 <script>
-    window.addEventListener('load', () => {
-        const splash = document.getElementById('splash-screen');
-        setTimeout(() => {
-            splash.style.opacity = '0';
-            setTimeout(() => { splash.style.visibility = 'hidden'; }, 800); 
-        }, 2000);
-    });
-
     const SUPER_ADMIN_PASS = "spa@cad";
     let adminPass = localStorage.getItem('s_admin_pass') || "123";
-    let companyProfile = JSON.parse(localStorage.getItem('s_profile')) || { company: "SOFTLOG Inc.", name: "Surabhi", desig: "Developer" };
+    let companyProfile = JSON.parse(localStorage.getItem('s_profile'));
     let tasks = JSON.parse(localStorage.getItem('s_tasks')) || [];
     let logs = JSON.parse(localStorage.getItem('s_logs_v4')) || {};
     let attendance = JSON.parse(localStorage.getItem('s_attendance')) || {};
     let activeId = localStorage.getItem('s_activeId') ? parseInt(localStorage.getItem('s_activeId')) : null;
     let timer, selectedDate = null;
     let pendingAuthAction = null; 
-    let pendingTaskId = null; // Store ID for delete auth
+    let pendingTaskId = null;
 
     const mS = document.getElementById('sel-m'), yS = document.getElementById('sel-y'), now = new Date();
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     
     months.forEach((m, i) => mS.innerHTML += `<option value="${i}" ${i==now.getMonth()?'selected':''}>${m}</option>`);
     for(let y=2024; y<=2035; y++) yS.innerHTML += `<option value="${y}" ${y==now.getFullYear()?'selected':''}>${y}</option>`;
+
+    window.addEventListener('load', () => {
+        const splash = document.getElementById('splash-screen');
+        const login = document.getElementById('login-screen');
+        
+        setTimeout(() => {
+            splash.style.opacity = '0';
+            setTimeout(() => { 
+                splash.style.visibility = 'hidden';
+                if(!companyProfile) {
+                    login.style.display = 'flex';
+                    setTimeout(() => login.classList.add('visible'), 50);
+                } else {
+                    updateProfileUI();
+                }
+            }, 800); 
+        }, 2000);
+
+        const savedTheme = localStorage.getItem('s_theme') || '#8b5cf6';
+        setTheme(savedTheme);
+    });
+
+    function completeRegistration() {
+        const comp = document.getElementById('reg-comp').value.trim();
+        const user = document.getElementById('reg-user').value.trim();
+        const desig = document.getElementById('reg-desig').value.trim();
+
+        if(!comp || !user || !desig) {
+            alert("Please fill in all details to proceed.");
+            return;
+        }
+
+        companyProfile = { company: comp, name: user, desig: desig };
+        localStorage.setItem('s_profile', JSON.stringify(companyProfile));
+
+        const login = document.getElementById('login-screen');
+        login.style.opacity = '0';
+        setTimeout(() => { login.style.display = 'none'; }, 500);
+
+        updateProfileUI();
+    }
+
+    function setTheme(color) {
+        document.documentElement.style.setProperty('--accent', color);
+        localStorage.setItem('s_theme', color);
+        document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+        const activeSwatch = document.getElementById('swatch-'+color);
+        if(activeSwatch) activeSwatch.classList.add('active');
+    }
 
     function formatTime(ts) { return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
     function format(s) {
@@ -395,9 +503,15 @@
     }
 
     function updateProfileUI() {
-        document.getElementById('side-user-name').innerText = companyProfile.name;
-        document.getElementById('side-comp-name').innerText = companyProfile.company;
+        if(companyProfile) {
+            document.getElementById('side-user-name').innerText = companyProfile.name;
+            document.getElementById('side-comp-name').innerText = companyProfile.company;
+            document.getElementById('setup-comp').value = companyProfile.company;
+            document.getElementById('setup-user').value = companyProfile.name;
+            document.getElementById('setup-desig').value = companyProfile.desig;
+        }
     }
+    
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
@@ -430,7 +544,17 @@
         const key = new Date().toISOString().split('T')[0];
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         if (!attendance[key]) attendance[key] = { in: null, out: null };
-        if (!attendance[key].in) attendance[key].in = time; else attendance[key].out = time;
+        
+        if (!attendance[key].in) {
+            attendance[key].in = time;
+        } else {
+            // STOP TASK IF RUNNING BEFORE PUNCHING OUT
+            if (activeId) {
+                toggle(activeId);
+            }
+            attendance[key].out = time;
+        }
+        
         localStorage.setItem('s_attendance', JSON.stringify(attendance));
         updatePunchUI();
     }
@@ -472,6 +596,15 @@
 
     function toggle(id) {
         const key = new Date().toISOString().split('T')[0];
+        
+        const att = attendance[key];
+        // If punching out, handlePunch calls this BEFORE setting out, so att.out is null, check passes.
+        // If user tries to click play manually after punching out, att.out exists, so it denies.
+        if (!att || !att.in || att.out) {
+            openModal('denied-modal');
+            return;
+        }
+        
         if(!logs[key]) logs[key] = {}; if(!logs[key][id]) logs[key][id] = [];
         if(activeId === id) {
             clearInterval(timer); timer = null;
@@ -514,7 +647,6 @@
         }
     }
 
-    // --- LEAVE MANAGEMENT ---
     function promptLeaveOptions() {
         if(!selectedDate) return alert("Please select a date first.");
         document.getElementById('leave-date-display').innerText = new Date(selectedDate).toDateString();
@@ -553,6 +685,7 @@
     }
 
     function generateReport() {
+        if(!companyProfile) return alert("Profile not found.");
         const m = parseInt(mS.value), y = parseInt(yS.value), total = new Date(y, m+1, 0).getDate();
         let html = `<div style="font-family:sans-serif; padding:40px;"><h1 style="text-align:center; margin-bottom:5px;">${companyProfile.company}</h1><p style="text-align:center; color:#555; margin-bottom:25px;">${companyProfile.name} | ${companyProfile.desig}<br>${months[m]} ${y}</p><table style="width:100%; border-collapse:collapse; margin-top:20px;"><thead><tr style="background:#f4f4f4;"><th style="border:1px solid #ddd; padding:12px;">Date</th><th style="border:1px solid #ddd; padding:12px;">Punch In</th><th style="border:1px solid #ddd; padding:12px;">Punch Out</th><th style="border:1px solid #ddd; padding:12px;">Work Hours</th></tr></thead><tbody>`;
         let g = 0; for(let i=1; i<=total; i++) {
@@ -570,6 +703,19 @@
         }
         html += `</tbody></table><div style="text-align:right; margin-top:30px; font-size:20px;"><strong>Grand Total: ${format(g)}</strong></div></div>`;
         document.getElementById('report-area').innerHTML = html; openModal('report-modal');
+    }
+
+    function printReport() {
+        const content = document.getElementById('report-area').innerHTML;
+        const printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Monthly Report</title>');
+        printWindow.document.write('<style>body { font-family: sans-serif; background: white; color: black; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; text-align: center; } th { background-color: #f4f4f4; }</style>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(content);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
     }
 
     function exportCSV() {
